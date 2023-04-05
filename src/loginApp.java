@@ -6,11 +6,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Test extends Application {
+public class loginApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Scene loginScene = new Scene(root);
         primaryStage.setScene(loginScene);
         String css = this.getClass().getResource("loginStyle.css").toExternalForm();
