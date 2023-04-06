@@ -19,7 +19,6 @@ public class loginApp extends Application {
         loginScene.getStylesheets().add(css);
         primaryStage.setTitle("Login");
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

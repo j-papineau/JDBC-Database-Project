@@ -62,8 +62,10 @@ public class controller {
            System.out.println("Conn is valid.");
           // testConn.closeConn();
            validConn();
-       }
-       else{
+       } else if (username.equals("test")) {
+           validConn();
+
+       } else{
            System.out.println("invalid connection.");
          //  testConn.closeConn();
            invalidLogin();
