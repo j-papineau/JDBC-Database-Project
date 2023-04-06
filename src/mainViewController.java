@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -97,4 +98,16 @@ public class mainViewController implements Initializable {
         */
 
     }//end initialize
+
+    public void employeeTabClicker(ActionEvent e){
+
+        System.out.println("Employee Tab Clicked");
+
+
+    }//end employee tab
+
+    public void departmentsTabClicked(ActionEvent e){
+
+        System.out.println("Departments tabe clicked");
+    }
 }
