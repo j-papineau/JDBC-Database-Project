@@ -48,6 +48,7 @@
                </children>
             </Pane>
             <Label fx:id="invalidMessage" layoutX="71.0" layoutY="86.0" text="Invalid Login Credentials." textFill="#fc2a00" visible="false" />
+            <Button fx:id="closeButton" layoutX="256.0" layoutY="11.0" mnemonicParsing="false" onAction="#closeButtonAction" style="-fx-background-color: transparent;" stylesheets="@loginStyle.css" text="X" />
          </children>
       </Pane>
       <ImageView fitHeight="437.0" fitWidth="242.0" layoutX="9.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
