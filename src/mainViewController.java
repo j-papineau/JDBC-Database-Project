@@ -3,9 +3,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+
 
 import javax.swing.*;
 import java.net.URL;
@@ -26,13 +29,52 @@ public class mainViewController implements Initializable {
     @FXML private TableColumn<Employee, Integer> salaryColumn;
     @FXML private TableColumn<Employee, Integer> superColumn;
     @FXML private TableColumn<Employee, Integer> dnoColumn;
-
-    @FXML
-    private void initialize() {
-
-    }
-
+    @FXML private Pane patientsPane;
+    @FXML private Pane departmentsPane;
+    @FXML private Pane doctorsPane;
+    @FXML private Button patientsTab;
+    @FXML private Button departmentsTab;
+    @FXML private Button doctorsTab;
     DBHandler db;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        System.out.println("DB Object Created");
+        try {
+            db = new DBHandler("n01533921","3921");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        fnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("fname"));
+        lnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("lname"));
+        ssnColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("ssn"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<Employee,Date>("bdate"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("address"));
+        sexColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("sex"));
+        salaryColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("salary"));
+        superColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("superssn"));
+        dnoColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("dno"));
+        /*
+        try {
+            employeeTableView.setItems(getEmployeeData());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        */
+
+        //prep all panes, set patients to visible first
+        patientsPane.setVisible(true);
+        departmentsPane.setVisible(false);
+        doctorsPane.setVisible(false);
+        patientsTab.setStyle("-fx-background-color: #002b70");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
+
+
+
+    }//end initialize
     public void createConnection(ActionEvent e) throws SQLException {
     }
 
@@ -70,44 +112,38 @@ public class mainViewController implements Initializable {
 
     }//end get employees
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("DB Object Created");
-        try {
-            db = new DBHandler("n01533921","3921");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    /*
+        Sidebar Menu Controller Section :)
+     */
+    public void switchToDepartmentsPane(ActionEvent e){
+        System.out.println("change to departments");
+        departmentsPane.setVisible(true);
+        patientsPane.setVisible(false);
+        doctorsPane.setVisible(false);
+        patientsTab.setStyle("-fx-background-color: #001c4a");
+        departmentsTab.setStyle("-fx-background-color: #002b70");
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
 
-        fnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("fname"));
-        lnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("lname"));
-        ssnColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("ssn"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Employee,Date>("bdate"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("address"));
-        sexColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("sex"));
-        salaryColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("salary"));
-        superColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("superssn"));
-        dnoColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("dno"));
-        /*
-        try {
-            employeeTableView.setItems(getEmployeeData());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        */
+    }//end departments
+    public void switchToPatientsPane(ActionEvent e){
+        System.out.println("change to patients");
+        patientsPane.setVisible(true);
+        departmentsPane.setVisible(false);
+        doctorsPane.setVisible(false);
+        patientsTab.setStyle("-fx-background-color: #002b70");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
 
-    }//end initialize
+    }//end patients
+    public void switchToDoctorsPane(ActionEvent e){
+        System.out.println("change to doctors");
+        doctorsPane.setVisible(true);
+        patientsPane.setVisible(false);
+        departmentsPane.setVisible(false);
 
-    public void employeeTabClicker(ActionEvent e){
-
-        System.out.println("Employee Tab Clicked");
-
-
-    }//end employee tab
-
-    public void departmentsTabClicked(ActionEvent e){
-
-        System.out.println("Departments tabe clicked");
-    }
+        patientsTab.setStyle("-fx-background-color: #001c4a");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        doctorsTab.setStyle("-fx-background-color: #002b70");
+    }//end doctors
 }
