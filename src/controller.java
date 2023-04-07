@@ -88,6 +88,8 @@ public class controller {
         //launch new window for main view
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainView.fxml"));
+          //  mainViewController mv = fxmlLoader.getController();
+           // mv.passCredentials(usernameInput.getText(), passwordInput.getText());
             Parent root1 = (Parent)fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("DBMS");

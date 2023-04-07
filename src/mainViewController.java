@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
@@ -35,18 +36,64 @@ public class mainViewController implements Initializable {
     @FXML private Button patientsTab;
     @FXML private Button departmentsTab;
     @FXML private Button doctorsTab;
+
+    //test tab imports
+    @FXML private TextField fnameText;
+    @FXML private TextField lnameText;
+    @FXML private TextField ssnText;
+    @FXML private TextField bdateText;
+    @FXML private TextField addressText;
+    @FXML private TextField sexText;
+    @FXML private TextField salaryText;
+    @FXML private TextField superSSNText;
+    @FXML private TextField dnoText;
+
+
+
+    String usernamefromLogin;
+    String passwordfromLogin;
     DBHandler db;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("DB Object Created");
+        //initialize dbhandler, and conn object on window open. conn does not need to be opened again
+        //conn can be closed by calling connObject.closeConn()
         try {
             db = new DBHandler("n01533921","3921");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("DB Object Created");
+        //prep all panes, set patients to visible first
+        patientsPane.setVisible(true);
+        departmentsPane.setVisible(false);
+        doctorsPane.setVisible(false);
+        patientsTab.setStyle("-fx-background-color: #002b70");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
+        System.out.println("Username: " + usernamefromLogin + "Password: " + passwordfromLogin);
 
+
+
+    }//end initialize
+
+    public void passCredentials(String usernamefromLogin, String passwordfromLogin){
+     //   this.usernamefromLogin = usernamefromLogin;
+      //  this.passwordfromLogin = passwordfromLogin;
+    }
+    public void createConnection(ActionEvent e) throws SQLException {
+    }
+
+    public void loadEmployees(ActionEvent e) throws SQLException {
+
+        db.getEmployees();
+    }
+
+
+    public void loadEmployeeData() throws SQLException {
+
+        //set all columns appropriately to prepare for object loading
         fnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("fname"));
         lnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("lname"));
         ssnColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("ssn"));
@@ -56,36 +103,7 @@ public class mainViewController implements Initializable {
         salaryColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("salary"));
         superColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("superssn"));
         dnoColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("dno"));
-        /*
-        try {
-            employeeTableView.setItems(getEmployeeData());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        */
 
-        //prep all panes, set patients to visible first
-        patientsPane.setVisible(true);
-        departmentsPane.setVisible(false);
-        doctorsPane.setVisible(false);
-        patientsTab.setStyle("-fx-background-color: #002b70");
-        departmentsTab.setStyle("-fx-background-color: #001c4a");
-        doctorsTab.setStyle("-fx-background-color: #001c4a");
-
-
-
-    }//end initialize
-    public void createConnection(ActionEvent e) throws SQLException {
-    }
-
-    public void loadEmployees(ActionEvent e) throws SQLException {
-        db.getEmployees();
-    }
-
-
-    public void loadEmployeeData() throws SQLException {
-
-      //  employeeTableView.getItems().setAll(getEmployeeData());
         try {
             employeeTableView.setItems(getEmployeeData());
             System.out.println("Data loaded");
@@ -111,6 +129,34 @@ public class mainViewController implements Initializable {
             return employees;
 
     }//end get employees
+
+    public void createNewEmployee() throws SQLException {
+
+        String first,last,address, sex;
+        Date bdate;
+        int ssn, salary, superssn, dno;
+
+        first = fnameText.getText();
+        last = lnameText.getText();
+        ssn = Integer.valueOf(ssnText.getText());
+        bdate = Date.valueOf(bdateText.getText());
+        address = addressText.getText();
+        sex = sexText.getText();
+        salary = Integer.valueOf(salaryText.getText());
+        superssn = Integer.valueOf(superSSNText.getText());
+        dno = Integer.valueOf(dnoText.getText());
+
+        System.out.println(first + " " + last +  " " + ssn +  " " + bdate +  " " + address +  " " + sex +  " " + salary +  " " + superssn +  " " + dno);
+
+        db.newEmployee();
+        //TODO go and write new employee method
+
+
+    }
+
+
+
+
 
 
     /*

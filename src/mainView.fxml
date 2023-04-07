@@ -98,6 +98,24 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </Tab>
+                        <Tab text="Add Emp">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField fx:id="fnameText" layoutX="9.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" promptText="First" />
+                                    <TextField fx:id="lnameText" layoutX="131.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" promptText="Last" />
+                                    <TextField fx:id="ssnText" layoutX="9.0" layoutY="79.0" prefHeight="25.0" prefWidth="115.0" promptText="SSN" />
+                                    <TextField fx:id="bdateText" layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="115.0" promptText="BDATE" />
+                                    <TextField fx:id="addressText" layoutX="9.0" layoutY="113.0" prefHeight="25.0" prefWidth="115.0" promptText="Address" />
+                                    <TextField fx:id="sexText" layoutX="130.0" layoutY="114.0" prefHeight="25.0" prefWidth="115.0" promptText="Sex" />
+                                    <TextField fx:id="salaryText" layoutX="10.0" layoutY="146.0" prefHeight="25.0" prefWidth="115.0" promptText="Salary" />
+                                    <TextField fx:id="superSSNText" layoutX="131.0" layoutY="146.0" prefHeight="25.0" prefWidth="115.0" promptText="SuperSSN" />
+                                    <TextField fx:id="dnoText" layoutX="73.0" layoutY="183.0" prefHeight="25.0" prefWidth="115.0" promptText="DNO" />
+                                    <Button fx:id="employeeSubmit" layoutX="98.0" layoutY="250.0" mnemonicParsing="false" onAction="#createNewEmployee" text="Submit" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
                     </tabs>
                   </TabPane>
                </children>

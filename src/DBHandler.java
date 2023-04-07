@@ -62,6 +62,19 @@ public class DBHandler {
     }//end getEmployees
 
 
+    public void newEmployee() throws SQLException {
+
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO EMPLOYEE (FNAME, LNAME, SSN, BDATE, ADDRESS, SEX, SALARY, SUPERSSN, DNO) "
+        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?");
+
+
+
+
+    }
+
+
+
+
 public void closeConn() throws SQLException {
         conn.close();
 }
