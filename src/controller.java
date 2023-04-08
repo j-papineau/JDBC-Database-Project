@@ -55,6 +55,8 @@ public class controller {
        String username = usernameInput.getText(); //get respective values from ui
        String password = passwordInput.getText();
 
+       loginApp.credentials = new userCredentials(username,password);
+
         jdbcConnection testConn = new jdbcConnection(username, password);
         Boolean valid = testConn.validateConn(); //sends to jdbc conn object to handle validation
 

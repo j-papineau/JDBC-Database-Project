@@ -7,6 +7,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+
 public class loginApp extends Application {
 
     @Override
@@ -24,4 +25,6 @@ public class loginApp extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    public static userCredentials credentials;
 }

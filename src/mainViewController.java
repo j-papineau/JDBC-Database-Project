@@ -47,6 +47,7 @@ public class mainViewController implements Initializable {
     @FXML private TextField salaryText;
     @FXML private TextField superSSNText;
     @FXML private TextField dnoText;
+   // @FXML private ;
 
 
 
@@ -56,6 +57,10 @@ public class mainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        usernamefromLogin = loginApp.credentials.getUsername();
+        passwordfromLogin = loginApp.credentials.getPassword();
+
 
         //initialize dbhandler, and conn object on window open. conn does not need to be opened again
         //conn can be closed by calling connObject.closeConn()
@@ -72,16 +77,16 @@ public class mainViewController implements Initializable {
         patientsTab.setStyle("-fx-background-color: #002b70");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
-        System.out.println("Username: " + usernamefromLogin + "Password: " + passwordfromLogin);
+
+
+
+        System.out.println("Initialize : Username: " + usernamefromLogin + "Password: " + passwordfromLogin);
 
 
 
     }//end initialize
 
-    public void passCredentials(String usernamefromLogin, String passwordfromLogin){
-     //   this.usernamefromLogin = usernamefromLogin;
-      //  this.passwordfromLogin = passwordfromLogin;
-    }
+
     public void createConnection(ActionEvent e) throws SQLException {
     }
 
