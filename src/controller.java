@@ -92,7 +92,7 @@ public class controller {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainView.fxml"));
           //  mainViewController mv = fxmlLoader.getController();
            // mv.passCredentials(usernameInput.getText(), passwordInput.getText());
-            Parent root1 = (Parent)fxmlLoader.load();
+            Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("DBMS");
             stage.setScene(new Scene(root1));

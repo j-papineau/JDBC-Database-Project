@@ -47,7 +47,22 @@ public class mainViewController implements Initializable {
     @FXML private TextField salaryText;
     @FXML private TextField superSSNText;
     @FXML private TextField dnoText;
-   // @FXML private ;
+
+    //department tab imports
+    //@FXML private TableView<Department> departmentTableView;
+
+    //doctor tab imports
+    @FXML private TableView<Doctor> docTable;
+    @FXML private TableColumn<Doctor, String> docIdCol;
+    @FXML private TableColumn<Doctor, String> docPhoneCol;
+    @FXML private TableColumn<Doctor, Date> docBdayCol;
+    @FXML private TableColumn<Doctor, String> docAddressCol;
+    @FXML private TableColumn<Doctor, String> docLNameCol;
+    @FXML private TableColumn<Doctor, String> docFNameCol;
+    @FXML private TableColumn<Doctor, String> docContactCol;
+    @FXML private TableColumn<Doctor, String> docCodeCol;
+    @FXML private TableColumn<Doctor, String> docSsnCol;
+
 
 
 
@@ -65,7 +80,7 @@ public class mainViewController implements Initializable {
         //initialize dbhandler, and conn object on window open. conn does not need to be opened again
         //conn can be closed by calling connObject.closeConn()
         try {
-            db = new DBHandler("n01533921","3921");
+            db = new DBHandler(usernamefromLogin, passwordfromLogin);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,23 +93,12 @@ public class mainViewController implements Initializable {
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
 
-
-
+     //print log of credentials from login window
         System.out.println("Initialize : Username: " + usernamefromLogin + "Password: " + passwordfromLogin);
 
 
 
     }//end initialize
-
-
-    public void createConnection(ActionEvent e) throws SQLException {
-    }
-
-    public void loadEmployees(ActionEvent e) throws SQLException {
-
-        db.getEmployees();
-    }
-
 
     public void loadEmployeeData() throws SQLException {
 
@@ -109,6 +113,7 @@ public class mainViewController implements Initializable {
         superColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("superssn"));
         dnoColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("dno"));
 
+
         try {
             employeeTableView.setItems(getEmployeeData());
             System.out.println("Data loaded");
@@ -122,44 +127,67 @@ public class mainViewController implements Initializable {
     public void clearEmployeeTable(ActionEvent e){
         employeeTableView.getItems().clear();
     }
-    public void refreshTable(){
-        employeeTableView.refresh();
-    }
-
     public ObservableList<Employee> getEmployeeData() throws SQLException {
 
             ObservableList<Employee> employees = FXCollections.observableArrayList();
-            employees = db.getEmployees();
+            employees = DBHandler.getEmployees();
 
             return employees;
 
     }//end get employees
 
-    public void createNewEmployee() throws SQLException {
 
-        String first,last,address, sex;
-        Date bdate;
-        int ssn, salary, superssn, dno;
+    //methods for patients pane
+    public void loadPatientData(){
+        //set colls
+        //patient object
 
-        first = fnameText.getText();
-        last = lnameText.getText();
-        ssn = Integer.valueOf(ssnText.getText());
-        bdate = Date.valueOf(bdateText.getText());
-        address = addressText.getText();
-        sex = sexText.getText();
-        salary = Integer.valueOf(salaryText.getText());
-        superssn = Integer.valueOf(superSSNText.getText());
-        dno = Integer.valueOf(dnoText.getText());
-
-        System.out.println(first + " " + last +  " " + ssn +  " " + bdate +  " " + address +  " " + sex +  " " + salary +  " " + superssn +  " " + dno);
-
-        db.newEmployee();
-        //TODO go and write new employee method
-
-
+    }//end load patient data
+    public ObservableList<Patient> getPatientDate(){
+        //call Dbhandler
+        ObservableList<Patient> patients = FXCollections.observableArrayList();
+      //get OL from method  patients = DBHandler.getPatients();
+        return patients;
     }
 
+    //methods for Doctor Pane
+    public void loadDoctorData(){
 
+        //TODO Type valuation incorrect here
+
+        docIdCol.setCellValueFactory(new PropertyValueFactory<Doctor,String>("docID"));
+        docContactCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("contactNum"));
+        docBdayCol.setCellValueFactory(new PropertyValueFactory<Doctor, Date>("bdate"));
+        docAddressCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("address"));
+        docFNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("fname"));
+        docLNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("lName"));
+        docPhoneCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("phone"));
+        docCodeCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("dCode"));
+        docSsnCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("ssn"));
+
+        try{
+            docTable.setItems(getDoctorData());
+            System.out.println("Doctor Data Loaded.");
+            docTable.refresh();
+
+        } catch (SQLException ev) {
+            throw new RuntimeException(ev);
+        }
+    }
+    public void clearDoctorTable(ActionEvent e){
+        docTable.getItems().clear();
+    }
+    public ObservableList<Doctor> getDoctorData() throws SQLException {
+        ObservableList<Doctor> doctors = FXCollections.observableArrayList();
+        doctors = DBHandler.getDoctors();
+
+        return doctors;
+    }//end get doctors
+
+
+
+
+    //methods for department pane
 
 
 
