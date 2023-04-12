@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -72,6 +73,7 @@ public class mainViewController implements Initializable {
     @FXML private TextField newDocContact;
     @FXML private TextField newDocCode;
     @FXML private TextField newDocSsn;
+    //doctor search by DocID imports
     @FXML private TextField docIDSearch;
     @FXML private Label procedureCount;
 
@@ -84,7 +86,7 @@ public class mainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //initialize credentials from object from main
         usernamefromLogin = loginApp.credentials.getUsername();
         passwordfromLogin = loginApp.credentials.getPassword();
 
@@ -207,6 +209,7 @@ public class mainViewController implements Initializable {
         newDocContact.setText("");
         newDocCode.setText("");
         newDocSsn.setText("");
+        newDocBday.setValue(LocalDate.now());
     }
 
    public void proceduresByDoc(){
