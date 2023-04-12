@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -169,6 +170,63 @@
                   </Label>
                   <Button layoutX="1075.0" layoutY="502.0" mnemonicParsing="false" onAction="#loadDoctorData" text="Load All Doctors" />
                   <Button layoutX="1191.0" layoutY="502.0" mnemonicParsing="false" onAction="#clearDoctorTable" text="clear" />
+                  <AnchorPane layoutX="113.0" layoutY="54.0" prefHeight="409.0" prefWidth="341.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
+                     <children>
+                        <Label layoutX="89.0" layoutY="14.0" text="Add New Doctor">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newDocId" layoutX="14.0" layoutY="77.0" promptText="DXXXXXXXX" />
+                        <Label layoutX="15.0" layoutY="59.0" text="Doctor ID" />
+                        <TextField fx:id="newDocPhone" layoutX="181.0" layoutY="76.0" promptText="XXX-XXX-XXXX" />
+                        <Label layoutX="182.0" layoutY="58.0" text="Phone Number" />
+                        <Label layoutX="14.0" layoutY="103.0" text="Birthday" />
+                        <TextField fx:id="newDocAddress" layoutX="180.0" layoutY="120.0" promptText="123 Forest Rd." />
+                        <Label layoutX="181.0" layoutY="102.0" text="Address" />
+                        <TextField fx:id="newDocFName" layoutX="15.0" layoutY="172.0" promptText="Johnny" />
+                        <Label layoutX="16.0" layoutY="154.0" text="First Name" />
+                        <TextField fx:id="newDocLName" layoutX="182.0" layoutY="171.0" promptText="Appleseed" />
+                        <Label layoutX="183.0" layoutY="153.0" text="Last Name" />
+                        <TextField fx:id="newDocContact" layoutX="15.0" layoutY="227.0" promptText="XXX-XXX-XXXX" />
+                        <Label layoutX="16.0" layoutY="209.0" text="Contact Number" />
+                        <TextField fx:id="newDocCode" layoutX="182.0" layoutY="226.0" promptText="SURG" />
+                        <Label layoutX="183.0" layoutY="208.0" text="Department Code" />
+                        <TextField fx:id="newDocSsn" layoutX="15.0" layoutY="280.0" promptText="XXX-XX-XXXX" />
+                        <Label layoutX="16.0" layoutY="262.0" text="SSN" />
+                        <Button layoutX="104.0" layoutY="351.0" mnemonicParsing="false" onAction="#addNewDoc" prefHeight="32.0" prefWidth="59.0" text="Submit" />
+                        <Button layoutX="182.0" layoutY="351.0" mnemonicParsing="false" onAction="#clearNewDoc" prefHeight="32.0" prefWidth="59.0" text="Clear" />
+                        <Label fx:id="newDoctorMessage" layoutX="181.0" layoutY="284.0" prefHeight="21.0" prefWidth="136.0" stylesheets="@loginStyle.css" text="This Sample Text" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="newDocBday" layoutX="15.0" layoutY="120.0" prefHeight="25.0" prefWidth="149.0" />
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="516.0" layoutY="54.0" prefHeight="27.0" prefWidth="186.0" text="Procedures by Doctor:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="docIDSearch" layoutX="702.0" layoutY="56.0" prefHeight="25.0" prefWidth="192.0" promptText="Doctor ID (DXXXXXXXX)" />
+                  <TableView layoutX="516.0" layoutY="95.0" prefHeight="368.0" prefWidth="732.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="907.0" layoutY="56.0" mnemonicParsing="false" onAction="#proceduresByDoc" prefHeight="25.0" prefWidth="67.0" text="Search" />
+                  <Label layoutX="982.0" layoutY="55.0" prefHeight="27.0" prefWidth="192.0" text="Procedures Completed:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="procedureCount" layoutX="1174.0" layoutY="56.0" prefHeight="27.0" prefWidth="122.0" text="0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>

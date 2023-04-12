@@ -3,10 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
@@ -15,6 +12,8 @@ import javax.swing.*;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,6 +61,19 @@ public class mainViewController implements Initializable {
     @FXML private TableColumn<Doctor, String> docContactCol;
     @FXML private TableColumn<Doctor, String> docCodeCol;
     @FXML private TableColumn<Doctor, String> docSsnCol;
+    @FXML private Label newDoctorMessage;
+    //new doc imports
+    @FXML private TextField newDocId;
+    @FXML private TextField newDocPhone;
+    @FXML private DatePicker newDocBday;
+    @FXML private TextField newDocAddress;
+    @FXML private TextField newDocFName;
+    @FXML private TextField newDocLName;
+    @FXML private TextField newDocContact;
+    @FXML private TextField newDocCode;
+    @FXML private TextField newDocSsn;
+    @FXML private TextField docIDSearch;
+    @FXML private Label procedureCount;
 
 
 
@@ -100,41 +112,9 @@ public class mainViewController implements Initializable {
 
     }//end initialize
 
-    public void loadEmployeeData() throws SQLException {
-
-        //set all columns appropriately to prepare for object loading
-        fnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("fname"));
-        lnameColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("lname"));
-        ssnColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("ssn"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Employee,Date>("bdate"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("address"));
-        sexColumn.setCellValueFactory(new PropertyValueFactory<Employee,String>("sex"));
-        salaryColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("salary"));
-        superColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("superssn"));
-        dnoColumn.setCellValueFactory(new PropertyValueFactory<Employee,Integer>("dno"));
 
 
-        try {
-            employeeTableView.setItems(getEmployeeData());
-            System.out.println("Data loaded");
-            employeeTableView.refresh();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-    }//end load
-
-    public void clearEmployeeTable(ActionEvent e){
-        employeeTableView.getItems().clear();
-    }
-    public ObservableList<Employee> getEmployeeData() throws SQLException {
-
-            ObservableList<Employee> employees = FXCollections.observableArrayList();
-            employees = DBHandler.getEmployees();
-
-            return employees;
-
-    }//end get employees
 
 
     //methods for patients pane
@@ -150,19 +130,18 @@ public class mainViewController implements Initializable {
         return patients;
     }
 
+
     //methods for Doctor Pane
     public void loadDoctorData(){
 
-        //TODO Type valuation incorrect here
-
         docIdCol.setCellValueFactory(new PropertyValueFactory<Doctor,String>("docID"));
         docContactCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("contactNum"));
-        docBdayCol.setCellValueFactory(new PropertyValueFactory<Doctor, Date>("bdate"));
+        docBdayCol.setCellValueFactory(new PropertyValueFactory<Doctor, Date>("BDate"));
         docAddressCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("address"));
-        docFNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("fname"));
-        docLNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("lName"));
+        docFNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("FName"));
+        docLNameCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("LName"));
         docPhoneCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("phone"));
-        docCodeCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("dCode"));
+        docCodeCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("deptCode"));
         docSsnCol.setCellValueFactory(new PropertyValueFactory<Doctor, String>("ssn"));
 
         try{
@@ -184,6 +163,56 @@ public class mainViewController implements Initializable {
         return doctors;
     }//end get doctors
 
+
+    public void addNewDoc(){
+
+        Doctor newDoctor = getNewDocInfo();
+        boolean addDocStatus = DBHandler.addDoc(newDoctor);
+        if(addDocStatus){
+            newDoctorMessage.setStyle("-fx-text-fill: #00b306");
+            newDoctorMessage.setText("New Doc added.");
+            newDoctorMessage.setVisible(true);
+            clearNewDoc();
+        }
+        else{
+            newDoctorMessage.setStyle("-fx-text-fill: #d41117");
+            newDoctorMessage.setText("Unable to add Doc.");
+            newDoctorMessage.setVisible(true);
+        }
+        //validation of tuple add
+
+    }//end new doc
+    public Doctor getNewDocInfo(){
+
+       String id = newDocId.getText();
+       String phone = newDocPhone.getText();
+       Date bday = Date.valueOf(newDocBday.getValue());
+       String address = newDocAddress.getText();
+       String fName = newDocFName.getText();
+       String lName = newDocLName.getText();
+       String contact = newDocContact.getText();
+       String dCode = newDocCode.getText();
+       String ssn = newDocSsn.getText();
+
+        return new Doctor(id,contact,bday,address,fName,lName,phone,dCode,ssn);
+    }//end new doc info
+
+    public void clearNewDoc(){
+        newDocId.setText("");
+        newDocPhone.setText("");
+        //newDocBday.set("");
+        newDocAddress.setText("");
+        newDocFName.setText("");
+        newDocLName.setText("");
+        newDocContact.setText("");
+        newDocCode.setText("");
+        newDocSsn.setText("");
+    }
+
+   public void proceduresByDoc(){
+        //TODO get all procedures completed by doctor by ID
+       // procedureCount.setText("80");
+   }
 
 
 

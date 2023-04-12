@@ -90,13 +90,34 @@ public class DBHandler {
             Doctor i = new Doctor(docId,contact,bdate,address,fname,lname,phone,dCode,ssn);
             doctors.add(i);
 
-            System.out.println(i.getlName() + i.getfName());
+            //System.out.println(i.getlName() + i.getfName());
         }
-
         return doctors;
-
+    }//end getDocs
+    public static boolean addDoc(Doctor doc){
+        boolean succesful = true;
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO DOCTOR(DOC_ID, CONTACT_NUM, BDAY, ADDRESS, FNAME, LNAME, PHONE, DEPT_CODE, SSN) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            //prepare statement from doc object
+            pstmt.setString(1, doc.getDocID());
+            pstmt.setString(2,doc.getContactNum());
+            pstmt.setDate(3,doc.getBDate());
+            pstmt.setString(4,doc.getAddress());
+            pstmt.setString(5,doc.getFName());
+            pstmt.setString(6,doc.getLName());
+            pstmt.setString(7,doc.getPhone());
+            pstmt.setString(8,doc.getDeptCode());
+            pstmt.setString(9,doc.getSsn());
+            //execute INSERT
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Unable to add doctor.");
+            succesful = false;
+        }
+        System.out.println("Doctor added.");
+        return succesful;
     }
-
 
 
     //closes conn object. must be reintialized if called

@@ -40,7 +40,7 @@ public class Doctor {
         this.address = address;
     }
 
-    public String getfName() {
+    public String getFName() {
         return fName;
     }
 
@@ -48,7 +48,7 @@ public class Doctor {
         this.fName = fName;
     }
 
-    public String getlName() {
+    public String getLName() {
         return lName;
     }
 
@@ -80,7 +80,7 @@ public class Doctor {
         this.ssn = ssn;
     }
 
-    public Date getbDate() {
+    public Date getBDate() {
         return bDate;
     }
 
