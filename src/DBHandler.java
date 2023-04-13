@@ -30,39 +30,6 @@ public class DBHandler {
 
     }//end constructor
 
-    public static ObservableList<Employee> getEmployees() throws SQLException {
-
-        ObservableList<Employee> employees = FXCollections.observableArrayList();
-
-        Statement stmt = conn.createStatement();
-        String q = "SELECT * FROM EMPLOYEE";
-        ResultSet rset = stmt.executeQuery(q);
-
-        // ObservableList<Employee> data = FXCollections.observableArrayList()
-
-        while (rset.next()) {
-            String fname = rset.getString("FNAME");
-            String lname = rset.getString("LNAME");
-            int ssn = rset.getInt("SSN");
-            Date bdate = rset.getDate("BDATE");
-            String address = rset.getString("ADDRESS");
-            String sex = rset.getString("SEX");
-            int salary = rset.getInt("SALARY");
-            int superssn = rset.getInt("SUPERSSN");
-            int dno = rset.getInt("DNO");
-
-
-
-            //check statement log
-            System.out.println(fname + " " + lname + " " + ssn + " " + bdate + " " + address + " " + sex + " " + salary + " " + superssn + " " + dno + " ");
-
-            Employee i = new Employee(fname, lname, ssn, bdate, address, sex, salary, superssn, dno);
-            employees.add(i);
-        }
-
-        return employees;
-    }//end getEmployees
-
     public static ObservableList<Doctor> getDoctors() throws SQLException {
 
         ObservableList<Doctor> doctors = FXCollections.observableArrayList();

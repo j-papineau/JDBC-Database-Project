@@ -101,10 +101,6 @@ public class mainViewController implements Initializable {
     }//end initialize
 
 
-
-
-
-
     //methods for patients pane
     public void loadPatientData(){
         //set colls
