@@ -335,4 +335,13 @@ public class mainViewController implements Initializable {
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #002b70");
     }//end doctors
-}
+    public void switchToMedicationsPane(ActionEvent e){
+        doctorsPane.setVisible(false);
+        patientsPane.setVisible(false);
+        departmentsPane.setVisible(false);
+
+        doctorsPane.setStyle("-fx-background-color: #001c4a");
+        patientsPane.setStyle("-fx-background-color: #001c4a");
+        departmentsPane.setStyle("-fx-background-color: #001c4a");
+    }
+}//end controller
