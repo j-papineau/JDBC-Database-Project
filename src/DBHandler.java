@@ -1,3 +1,4 @@
+import com.sun.javafx.reflect.ReflectUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -111,11 +112,57 @@ public class DBHandler {
             pstmt.setString(9,doc.getSsn());
             //execute INSERT
             pstmt.executeUpdate();
+            System.out.println("Doctor added.");
         } catch (SQLException e) {
             System.out.println("Unable to add doctor.");
             succesful = false;
         }
-        System.out.println("Doctor added.");
+
+        return succesful;
+    }
+
+    public static ObservableList<Department> getDepartments() throws SQLException {
+
+        ObservableList<Department> departments = FXCollections.observableArrayList();
+
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM DEPARTMENT";
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+            String depCode = rset.getString("DEPT_CODE");
+            String officeNum = rset.getString("OFFICE_NUM");
+            String officePhone = rset.getString("OFFICE_PHONE");
+            String depHead = rset.getString("DEPT_HEAD");
+            String depName = rset.getString("DEPT_NAME");
+
+            Department d = new Department(depCode,officeNum,officePhone,depHead,depName);
+            departments.add(d);
+        }
+        return departments;
+    }//end getDepartments
+
+    public static boolean addDepartment(Department dep){
+        boolean succesful = true;
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO DEPARTMENT VALUES (?, ?, ?, ?, ?)");
+            //prepare statement from dep object
+            pstmt.setString(1,dep.getDepCode());
+            pstmt.setString(2,dep.getOfficeNum());
+            pstmt.setString(3,dep.getOfficePhone());
+            pstmt.setString(4,dep.getDepHead());
+            pstmt.setString(5,dep.getDepName());
+            //execute
+            pstmt.executeUpdate();
+            System.out.println("Department added.");
+
+        } catch (SQLException e) {
+            System.out.println("Unable to add department.");
+            succesful = false;
+            e.printStackTrace();
+            return succesful;
+        }
+
         return succesful;
     }
 

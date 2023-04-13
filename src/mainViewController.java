@@ -49,7 +49,22 @@ public class mainViewController implements Initializable {
     @FXML private TextField dnoText;
 
     //department tab imports
-    //@FXML private TableView<Department> departmentTableView;
+    @FXML private TableView<Department> departmentTable;
+    @FXML private TableColumn<Department,String> depCodeCol;
+    @FXML private TableColumn<Department,String> depNameCol;
+    @FXML private TableColumn<Department,String> depNumCol;
+    @FXML private TableColumn<Department, String> depPhoneCol;
+    @FXML private TableColumn<Department, String> depHeadCol;
+    //new department imports
+    @FXML private TextField depCodeText;
+    @FXML private TextField officeNumText;
+    @FXML private TextField officePhoneText;
+    @FXML private TextField depHeadText;
+    @FXML private TextField depNameText;
+    @FXML private Label addDepMessage;
+
+
+
 
     //doctor tab imports
     @FXML private TableView<Doctor> docTable;
@@ -152,6 +167,7 @@ public class mainViewController implements Initializable {
             docTable.refresh();
 
         } catch (SQLException ev) {
+            System.out.println("Unable to fetch doctor data.");
             throw new RuntimeException(ev);
         }
     }
@@ -221,6 +237,68 @@ public class mainViewController implements Initializable {
 
     //methods for department pane
 
+    public void loadDepartmentData() throws SQLException {
+        depCodeCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depCode"));
+        depNameCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depName"));
+        depNumCol.setCellValueFactory(new PropertyValueFactory<Department,String>("officeNum"));
+        depPhoneCol.setCellValueFactory(new PropertyValueFactory<Department,String>("officePhone"));
+        depHeadCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depHead"));
+        try {
+            departmentTable.setItems(getDepartmentData());
+            System.out.println("Department data Loaded.");
+            departmentTable.refresh();
+        }catch (SQLException e){
+            System.out.println("Unable to load department data.");
+            e.printStackTrace();
+        }
+    }//end load departments
+
+    public void addNewDepartment(){
+        Department newDepartment = getNewDepInfo();
+        boolean addDepStatus = DBHandler.addDepartment(newDepartment);
+        if(addDepStatus){
+            addDepMessage.setText("Department Added.");
+            addDepMessage.setStyle("-fx-text-fill: #00b306");
+            addDepMessage.setVisible(true);
+            clearNewDepartment();
+        }
+        else{
+            addDepMessage.setText("Error adding Department.");
+            addDepMessage.setStyle("-fx-text-fill: #d41117");
+            addDepMessage.setVisible(true);
+        }
+
+    }
+    public void clearNewDepartment(){
+        depCodeText.setText("");
+        officeNumText.setText("");
+        officePhoneText.setText("");
+        depHeadText.setText("");
+        depNameText.setText("");
+    }
+    public Department getNewDepInfo(){
+        String depCode = depCodeText.getText();
+        String officeNum = officeNumText.getText();
+        String officePhone = officePhoneText.getText();
+        String depHead = depHeadText.getText();
+        String depName = depNameText.getText();
+
+        return new Department(depCode, officeNum, officePhone, depHead, depName);
+
+    }
+
+    public void clearDepartmentData(){
+        departmentTable.getItems().clear();
+    }
+
+    public ObservableList<Department> getDepartmentData() throws SQLException{
+
+        ObservableList<Department> departments = FXCollections.observableArrayList();
+        departments = DBHandler.getDepartments();
+
+        return departments;
+    }//end getDepartment
+
 
 
 
@@ -228,7 +306,7 @@ public class mainViewController implements Initializable {
         Sidebar Menu Controller Section :)
      */
     public void switchToDepartmentsPane(ActionEvent e){
-        System.out.println("change to departments");
+     //   System.out.println("change to departments");
         departmentsPane.setVisible(true);
         patientsPane.setVisible(false);
         doctorsPane.setVisible(false);
@@ -238,7 +316,7 @@ public class mainViewController implements Initializable {
 
     }//end departments
     public void switchToPatientsPane(ActionEvent e){
-        System.out.println("change to patients");
+      //  System.out.println("change to patients");
         patientsPane.setVisible(true);
         departmentsPane.setVisible(false);
         doctorsPane.setVisible(false);
@@ -248,7 +326,7 @@ public class mainViewController implements Initializable {
 
     }//end patients
     public void switchToDoctorsPane(ActionEvent e){
-        System.out.println("change to doctors");
+      //  System.out.println("change to doctors");
         doctorsPane.setVisible(true);
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
