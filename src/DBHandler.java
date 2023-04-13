@@ -1,10 +1,7 @@
-import com.sun.javafx.reflect.ReflectUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import oracle.sql.DATE;
+
 import java.sql.*;
-import java.util.ArrayList;
 
 
 public class DBHandler {

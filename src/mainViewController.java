@@ -7,47 +7,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
-
-import javax.swing.*;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class mainViewController implements Initializable {
 
-    @FXML private TableView<Employee> employeeTableView;
-    @FXML private TableColumn<Employee, String> fnameColumn;
-    @FXML private TableColumn<Employee, String> lnameColumn;
-    @FXML private TableColumn<Employee, Integer> ssnColumn;
-    @FXML private TableColumn<Employee, Date> dateColumn;
-    @FXML private TableColumn<Employee, String> addressColumn;
-    @FXML private TableColumn<Employee, String> sexColumn;
-    @FXML private TableColumn<Employee, Integer> salaryColumn;
-    @FXML private TableColumn<Employee, Integer> superColumn;
-    @FXML private TableColumn<Employee, Integer> dnoColumn;
+
     @FXML private Pane patientsPane;
     @FXML private Pane departmentsPane;
     @FXML private Pane doctorsPane;
     @FXML private Button patientsTab;
     @FXML private Button departmentsTab;
     @FXML private Button doctorsTab;
-
-    //test tab imports
-    @FXML private TextField fnameText;
-    @FXML private TextField lnameText;
-    @FXML private TextField ssnText;
-    @FXML private TextField bdateText;
-    @FXML private TextField addressText;
-    @FXML private TextField sexText;
-    @FXML private TextField salaryText;
-    @FXML private TextField superSSNText;
-    @FXML private TextField dnoText;
-
     //department tab imports
     @FXML private TableView<Department> departmentTable;
     @FXML private TableColumn<Department,String> depCodeCol;
@@ -62,10 +36,6 @@ public class mainViewController implements Initializable {
     @FXML private TextField depHeadText;
     @FXML private TextField depNameText;
     @FXML private Label addDepMessage;
-
-
-
-
     //doctor tab imports
     @FXML private TableView<Doctor> docTable;
     @FXML private TableColumn<Doctor, String> docIdCol;
@@ -111,6 +81,7 @@ public class mainViewController implements Initializable {
         try {
             db = new DBHandler(usernamefromLogin, passwordfromLogin);
         } catch (SQLException e) {
+            System.out.println("Unable to connect to db.");
             throw new RuntimeException(e);
         }
         System.out.println("DB Object Created");
@@ -176,7 +147,7 @@ public class mainViewController implements Initializable {
     }
     public ObservableList<Doctor> getDoctorData() throws SQLException {
         ObservableList<Doctor> doctors = FXCollections.observableArrayList();
-        doctors = DBHandler.getDoctors();
+        doctors = db.getDoctors();
 
         return doctors;
     }//end get doctors
@@ -185,7 +156,7 @@ public class mainViewController implements Initializable {
     public void addNewDoc(){
 
         Doctor newDoctor = getNewDocInfo();
-        boolean addDocStatus = DBHandler.addDoc(newDoctor);
+        boolean addDocStatus = db.addDoc(newDoctor);
         if(addDocStatus){
             newDoctorMessage.setStyle("-fx-text-fill: #00b306");
             newDoctorMessage.setText("New Doc added.");
@@ -237,7 +208,7 @@ public class mainViewController implements Initializable {
 
     //methods for department pane
 
-    public void loadDepartmentData() throws SQLException {
+    public void loadDepartmentData() {
         depCodeCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depCode"));
         depNameCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depName"));
         depNumCol.setCellValueFactory(new PropertyValueFactory<Department,String>("officeNum"));
@@ -294,10 +265,14 @@ public class mainViewController implements Initializable {
     public ObservableList<Department> getDepartmentData() throws SQLException{
 
         ObservableList<Department> departments = FXCollections.observableArrayList();
-        departments = DBHandler.getDepartments();
+        departments = db.getDepartments();
 
         return departments;
     }//end getDepartment
+
+
+    //methods for Medications pane
+
 
 
 
@@ -305,6 +280,9 @@ public class mainViewController implements Initializable {
     /*
         Sidebar Menu Controller Section :)
      */
+
+    //TODO At medications pane tab update prev methods and initialize
+
     public void switchToDepartmentsPane(ActionEvent e){
      //   System.out.println("change to departments");
         departmentsPane.setVisible(true);
