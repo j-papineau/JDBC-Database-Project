@@ -129,6 +129,40 @@ public class DBHandler {
 
         return succesful;
     }
+    public static ObservableList<Medication> getMedications() throws SQLException {
+
+        ObservableList<Medication> medications = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM MEDICATION";
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+            String name = rset.getString("MED_NAME");
+            String maker = rset.getString("MAKER");
+            String description = rset.getString("DESCRIPTION");
+
+            Medication m = new Medication(name, maker, description);
+            medications.add(m);
+        }
+
+        return medications;
+    }
+    public static boolean addMed(Medication med){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO MEDICATION VALUES(?, ?, ?)");
+            pstmt.setString(1,med.getName());
+            pstmt.setString(2,med.getMaker());
+            pstmt.setString(3, med.getDescription());
+            pstmt.executeUpdate();
+            System.out.println("Medication added.");
+
+        } catch (SQLException e) {
+            System.out.println("Unable to add medication.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 
     //closes conn object. must be reintialized if called

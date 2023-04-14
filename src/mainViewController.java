@@ -15,13 +15,15 @@ import java.util.ResourceBundle;
 
 public class mainViewController implements Initializable {
 
-
+    //sidebar imports
     @FXML private Pane patientsPane;
     @FXML private Pane departmentsPane;
     @FXML private Pane doctorsPane;
+    @FXML private Pane medicationsPane;
     @FXML private Button patientsTab;
     @FXML private Button departmentsTab;
     @FXML private Button doctorsTab;
+    @FXML private Button medicationsTab;
     //department tab imports
     @FXML private TableView<Department> departmentTable;
     @FXML private TableColumn<Department,String> depCodeCol;
@@ -61,7 +63,16 @@ public class mainViewController implements Initializable {
     //doctor search by DocID imports
     @FXML private TextField docIDSearch;
     @FXML private Label procedureCount;
-
+    //med tab imports
+    @FXML private TableView<Medication> medicationsTable;
+    @FXML private TableColumn<Medication, String> medNameCol;
+    @FXML private TableColumn<Medication, String> medMakerCol;
+    @FXML private TableColumn<Medication, String> medDescCol;
+    //new med imports
+    @FXML private TextField medNameText;
+    @FXML private TextField medMakerText;
+    @FXML private TextField medDescText;
+    @FXML private Label addMedMessage;
 
 
 
@@ -86,17 +97,10 @@ public class mainViewController implements Initializable {
         }
         System.out.println("DB Object Created");
         //prep all panes, set patients to visible first
-        patientsPane.setVisible(true);
-        departmentsPane.setVisible(false);
-        doctorsPane.setVisible(false);
-        patientsTab.setStyle("-fx-background-color: #002b70");
-        departmentsTab.setStyle("-fx-background-color: #001c4a");
-        doctorsTab.setStyle("-fx-background-color: #001c4a");
+        switchToPatientsPane();
 
      //print log of credentials from login window
         System.out.println("Initialize : Username: " + usernamefromLogin + "Password: " + passwordfromLogin);
-
-
 
     }//end initialize
 
@@ -261,61 +265,117 @@ public class mainViewController implements Initializable {
     public ObservableList<Department> getDepartmentData() throws SQLException{
 
         ObservableList<Department> departments = FXCollections.observableArrayList();
-        departments = db.getDepartments();
+        departments = DBHandler.getDepartments();
 
         return departments;
     }//end getDepartment
 
 
     //methods for Medications pane
+    public void loadMedicationData(){
+        medNameCol.setCellValueFactory(new PropertyValueFactory<Medication,String>("name"));
+        medMakerCol.setCellValueFactory(new PropertyValueFactory<Medication, String>("maker"));
+        medDescCol.setCellValueFactory(new PropertyValueFactory<Medication, String>("description"));
+
+        try{
+            medicationsTable.setItems(getMedicationData());
+            System.out.println("Medication data loaded.");
+            medicationsTable.refresh();
+
+        }catch(SQLException e){
+            System.out.println("Unable to load medication data.");
+        }
 
 
+    }
+    public ObservableList<Medication> getMedicationData() throws SQLException {
 
+        ObservableList<Medication> medications = FXCollections.observableArrayList();
+        medications = DBHandler.getMedications();
+
+        return medications;
+    }//end getMed
+    public void clearMedicationTable(){
+        medicationsTable.getItems().clear();
+    }
+    public void addNewMedication(){
+        String name = medNameText.getText();
+        String maker = medMakerText.getText();
+        String description = medDescText.getText();
+        Medication newMed = new Medication(name, maker, description);
+        Boolean medAdded = DBHandler.addMed(newMed);
+        if(medAdded){
+            addMedMessage.setText("Medication added.");
+            addMedMessage.setStyle("-fx-text-fill: #00b306");
+            addMedMessage.setVisible(true);
+        }
+        else{
+            addMedMessage.setText("Unable to add medication.");
+            addMedMessage.setStyle("-fx-text-fill: #d41117");
+            addMedMessage.setVisible(true);
+        }
+
+    }
+    public void clearNewMedication(){
+        medNameText.setText("");
+        medMakerText.setText("");
+        medDescText.setText("");
+    }
 
 
     /*
-        Sidebar Menu Controller Section :)
+        Sidebar Menu Control Section :)
      */
 
     //TODO At medications pane tab update prev methods and initialize
 
-    public void switchToDepartmentsPane(ActionEvent e){
+    public void switchToDepartmentsPane(){
      //   System.out.println("change to departments");
         departmentsPane.setVisible(true);
         patientsPane.setVisible(false);
         doctorsPane.setVisible(false);
+        medicationsPane.setVisible(false);
+
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #002b70");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
+        medicationsTab.setStyle("-fx-background-color: #001c4a");
 
     }//end departments
-    public void switchToPatientsPane(ActionEvent e){
+    public void switchToPatientsPane(){
       //  System.out.println("change to patients");
         patientsPane.setVisible(true);
         departmentsPane.setVisible(false);
         doctorsPane.setVisible(false);
+        medicationsPane.setVisible(false);
+
         patientsTab.setStyle("-fx-background-color: #002b70");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
+        medicationsTab.setStyle("-fx-background-color: #001c4a");
 
     }//end patients
-    public void switchToDoctorsPane(ActionEvent e){
+    public void switchToDoctorsPane(){
       //  System.out.println("change to doctors");
         doctorsPane.setVisible(true);
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
+        medicationsPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #002b70");
+        medicationsTab.setStyle("-fx-background-color: #001c4a");
     }//end doctors
-    public void switchToMedicationsPane(ActionEvent e){
+    public void switchToMedicationsPane(){
         doctorsPane.setVisible(false);
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
+        medicationsPane.setVisible(true);
 
-        doctorsPane.setStyle("-fx-background-color: #001c4a");
-        patientsPane.setStyle("-fx-background-color: #001c4a");
-        departmentsPane.setStyle("-fx-background-color: #001c4a");
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
+        patientsTab.setStyle("-fx-background-color: #001c4a");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        medicationsTab.setStyle("-fx-background-color: #002b70");
     }
 }//end controller
