@@ -120,6 +120,38 @@ public class DBHandler {
 
         return succesful;
     }
+    public static boolean addPatient(Patient pat){
+        try{
+            //16 vals
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PATIENT VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                    "?, ?, ?)");
+
+            pstmt.setString(1,pat.getPatientID());
+            pstmt.setString(2,pat.getSsn());
+            pstmt.setString(3,pat.getPrimaryDocID());
+            pstmt.setString(4,pat.getSecondaryDocID());
+            pstmt.setString(5,pat.getFName());
+            pstmt.setString(6,pat.getLName());
+            pstmt.setString(7,pat.getCurrentAddress());
+            pstmt.setString(8, pat.getCurrentPhone());
+            pstmt.setString(9,pat.getPatientCondition());
+            pstmt.setDate(10,pat.getBDate());
+            pstmt.setString(11,pat.getPermCity());
+            pstmt.setString(12,pat.getPermState());
+            pstmt.setString(13,pat.getPermStreet());
+            pstmt.setString(14,pat.getPermZip());
+            pstmt.setString(15,pat.getPermPhone());
+            pstmt.setString(16,pat.getSex());
+            pstmt.executeUpdate();
+            System.out.println("Patient added.");
+
+        } catch (SQLException e) {
+            System.out.println("Unable to add patient.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static ObservableList<Department> getDepartments() throws SQLException {
 

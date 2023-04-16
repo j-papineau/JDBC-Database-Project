@@ -80,8 +80,8 @@
                         <DatePicker fx:id="patBDay" layoutX="9.0" layoutY="198.0" prefHeight="25.0" prefWidth="126.0" />
                         <Label layoutX="164.0" layoutY="257.0" text="Sex" />
                         <ComboBox fx:id="sexComboBox" layoutX="164.0" layoutY="273.0" prefHeight="25.0" prefWidth="126.0" visibleRowCount="3" />
-                        <Button layoutX="47.0" layoutY="304.0" mnemonicParsing="false" text="Submit" />
-                        <Button layoutX="119.0" layoutY="304.0" mnemonicParsing="false" text="Clear" />
+                        <Button layoutX="47.0" layoutY="304.0" mnemonicParsing="false" onAction="#addNewPatient" text="Submit" />
+                        <Button layoutX="119.0" layoutY="304.0" mnemonicParsing="false" onAction="#clearNewPatient" text="Clear" />
                         <Label fx:id="newPatMessage" layoutX="182.0" layoutY="305.0" prefHeight="24.0" prefWidth="241.0" text="Label" visible="false">
                            <font>
                               <Font size="15.0" />

@@ -141,6 +141,71 @@ public class mainViewController implements Initializable {
 
 
     //methods for patients pane
+    public void addNewPatient(){
+        Patient newPatient = getNewPatientInfo();
+        boolean addPatientStatus = db.addPatient(newPatient);
+        if(addPatientStatus){
+            newPatMessage.setText("Patient added.");
+            newPatMessage.setStyle("-fx-text-fill: #00b306");
+            newPatMessage.setVisible(true);
+            clearNewPatient();
+        }
+        else{
+            newPatMessage.setText("Unable to add Patient.");
+            newPatMessage.setStyle("-fx-text-fill: #d41117");
+            newPatMessage.setVisible(true);
+        }
+    }
+    public void clearNewPatient(){
+        patID.setText("");
+        patSSN.setText("");
+        patPrimaryDoc.setText("");
+        patSecondaryDoc.setText("");
+        patFName.setText("");
+        patLName.setText("");
+        patAddress.setText("");
+        patPhone.setText("");
+        patPermCity.setText("");
+        patPermState.setText("");
+        patPermState.setText("");
+        patPermStreet.setText("");
+        patPermZip.setText("");
+        patPermPhone.setText("");
+    }
+    public Patient getNewPatientInfo(){
+
+        String patientID = patID.getText();
+        String ssn = patSSN.getText();
+        String primaryDocID = patPrimaryDoc.getText();
+        String secondaryDocID = patSecondaryDoc.getText();
+        String fname = patFName.getText();
+        String lname = patLName.getText();
+        String currentAddress = patAddress.getText();
+        String currentPhone = patPhone.getText();
+        String patientCondition = patConditionBox.getValue().toString();
+        Date bdate = Date.valueOf(patBDay.getValue());
+        String permCity = patPermCity.getText();
+        String permState = patPermState.getText();
+        String permStreet = patPermStreet.getText();
+        String permZip = patPermZip.getText();
+        String permPhone = patPermPhone.getText();
+        String sex = sexComboBox.getValue().toString();
+        if(sex.equals("Male")){
+            sex = "M";
+        }
+        else if(sex.equals("Female"))
+        {
+            sex = "F";
+        }
+        else{
+            sex = "O";
+        }
+
+
+
+        return new Patient(patientID,ssn,primaryDocID,secondaryDocID,fname,lname,currentAddress,
+                currentPhone,patientCondition,bdate,permCity,permState,permStreet,permZip,permPhone,sex);
+    }
    public void loadPatientData(){
 
         patIDCol.setCellValueFactory(new PropertyValueFactory<Patient,String>("patientID"));

@@ -138,6 +138,14 @@ public class Patient {
         this.sex = sex;
     }
 
+    public String getPermStreet() {
+        return permStreet;
+    }
+
+    public void setPermStreet(String permStreet) {
+        this.permStreet = permStreet;
+    }
+
     public Date getBDate() {
         return bDate;
     }
