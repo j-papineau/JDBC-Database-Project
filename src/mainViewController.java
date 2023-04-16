@@ -73,6 +73,36 @@ public class mainViewController implements Initializable {
     @FXML private TextField medMakerText;
     @FXML private TextField medDescText;
     @FXML private Label addMedMessage;
+    //patient tab imports
+    @FXML private TableView<Patient> patientTable;
+    @FXML private TableColumn<Patient,String> patIDCol;
+    @FXML private TableColumn<Patient,String> patDocCol;
+    @FXML private TableColumn<Patient,String> patSSNCol;
+    @FXML private TableColumn<Patient,String> patFNameCol;
+    @FXML private TableColumn<Patient,String> patLNameCol;
+    @FXML private TableColumn<Patient,String> patSexCol;
+    @FXML private TableColumn<Patient,String> patAddressCol;
+    @FXML private TableColumn<Patient,Date> patBDateCol;
+    //add patient imports
+    @FXML private ComboBox sexComboBox;
+    @FXML private ComboBox patConditionBox;
+    @FXML private Label newPatMessage;
+    @FXML private TextField patID;
+    @FXML private TextField patSSN;
+    @FXML private TextField patPrimaryDoc;
+    @FXML private TextField patSecondaryDoc;
+    @FXML private TextField patFName;
+    @FXML private TextField patLName;
+    @FXML private TextField patAddress;
+    @FXML private TextField patPhone;
+    @FXML private TextField patPermCity;
+    @FXML private TextField patPermState;
+    @FXML private TextField patPermStreet;
+    @FXML private TextField patPermZip;
+    @FXML private TextField patPermPhone;
+    @FXML private DatePicker patBDay;
+
+
 
 
 
@@ -86,6 +116,11 @@ public class mainViewController implements Initializable {
         usernamefromLogin = loginApp.credentials.getUsername();
         passwordfromLogin = loginApp.credentials.getPassword();
 
+        //set combobox items
+        sexComboBox.getItems().clear();
+        sexComboBox.getItems().addAll("Male", "Female","Other");
+        patConditionBox.getItems().clear();
+        patConditionBox.getItems().addAll("Critical","Stable","Fair");
 
         //initialize dbhandler, and conn object on window open. conn does not need to be opened again
         //conn can be closed by calling connObject.closeConn()
@@ -106,18 +141,36 @@ public class mainViewController implements Initializable {
 
 
     //methods for patients pane
-    public void loadPatientData(){
-        //set colls
-        //patient object
+   public void loadPatientData(){
 
-    }//end load patient data
-    public ObservableList<Patient> getPatientDate(){
-        //call Dbhandler
+        patIDCol.setCellValueFactory(new PropertyValueFactory<Patient,String>("patientID"));
+        patSSNCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("ssn"));
+        patDocCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("primaryDocID"));
+        patFNameCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("fName"));
+        patLNameCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("lName"));
+        patSexCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("sex"));
+        patAddressCol.setCellValueFactory(new PropertyValueFactory<Patient, String>("currentAddress"));
+        patBDateCol.setCellValueFactory(new PropertyValueFactory<Patient, Date>("bDate"));
+
+        try{
+            patientTable.setItems(getPatientData());
+            System.out.println("Patient Data Loaded.");
+            patientTable.refresh();
+        } catch (SQLException e) {
+            System.out.println("Unable to fetch patient data.");
+            e.printStackTrace();
+        }
+
+
+   }
+    public ObservableList<Patient> getPatientData() throws SQLException {
         ObservableList<Patient> patients = FXCollections.observableArrayList();
-      //get OL from method  patients = DBHandler.getPatients();
+        patients = db.getPatients();
         return patients;
     }
-
+    public void clearPatientTable(){
+        patientTable.getItems().clear();
+    }
 
     //methods for Doctor Pane
     public void loadDoctorData(){
@@ -303,7 +356,7 @@ public class mainViewController implements Initializable {
         String maker = medMakerText.getText();
         String description = medDescText.getText();
         Medication newMed = new Medication(name, maker, description);
-        Boolean medAdded = DBHandler.addMed(newMed);
+        boolean medAdded = DBHandler.addMed(newMed);
         if(medAdded){
             addMedMessage.setText("Medication added.");
             addMedMessage.setStyle("-fx-text-fill: #00b306");

@@ -59,6 +59,42 @@ public class DBHandler {
         }
         return doctors;
     }//end getDocs
+    public static ObservableList<Patient> getPatients() throws SQLException {
+
+        ObservableList<Patient> patients = FXCollections.observableArrayList();
+
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM PATIENT";
+        ResultSet rset = stmt.executeQuery(q);
+        System.out.println("Querying Patients from DB");
+
+        while(rset.next()){
+
+            String patientID = rset.getString("PATIENT_ID");
+            String ssn = rset.getString("SSN");
+            String primaryDocID = rset.getString("PRIMARY_DOC_ID");
+            String secondaryDocID = rset.getString("SECONDARY_DOC_ID");
+            String FName = rset.getString("FNAME");
+            String LName = rset.getString("LNAME");
+            String currentAddress = rset.getString("CURRENT_ADDRESS");
+            String currentPhone = rset.getString("CURRENT_PHONE");
+            String patientCondition = rset.getString("PATIENT_CONDITION");
+            Date bdate = rset.getDate("BDAY");
+            String permCity = rset.getString("PERM_CITY");
+            String permState = rset.getString("PERM_STATE");
+            String permStreet = rset.getString("PERM_STREET");
+            String permZip = rset.getString("PERM_ZIP");
+            String permPhone = rset.getString("PERM_PHONE");
+            String sex = rset.getString("SEX");
+
+            Patient p = new Patient(patientID,ssn,primaryDocID,secondaryDocID, FName,LName,currentAddress,currentPhone,patientCondition,bdate,
+                    permCity,permState,permStreet,permZip,permPhone, sex);
+            patients.add(p);
+
+        }
+
+        return patients;
+    }//end getPatients
     public static boolean addDoc(Doctor doc){
         boolean succesful = true;
         try {
