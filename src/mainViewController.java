@@ -38,6 +38,21 @@ public class mainViewController implements Initializable {
     @FXML private TextField depHeadText;
     @FXML private TextField depNameText;
     @FXML private Label addDepMessage;
+    //new procedure by department imports
+    @FXML private TextField procNameText;
+    @FXML private TextField procNumText;
+    @FXML private TextField procDurationText;
+    @FXML private TextField procDepCodeText;
+    @FXML private TextField procDescText;
+    @FXML private Label newProcedureMessage;
+    //search proc by dep imports
+    @FXML private TableView<Procedure> procByDepTable;
+    @FXML private TableColumn<Procedure,String> procDepCol;
+    @FXML private TableColumn<Procedure,String> procNameCol;
+    @FXML private TableColumn<Procedure,String> procNumCol;
+    @FXML private TableColumn<Procedure,String> procDurationCol;
+    @FXML private TableColumn<Procedure,String> procDescCol;
+    @FXML private TextField searchDepText;
     //doctor tab imports
     @FXML private TableView<Doctor> docTable;
     @FXML private TableColumn<Doctor, String> docIdCol;
@@ -139,6 +154,11 @@ public class mainViewController implements Initializable {
 
     }//end initialize
 
+    //TODO add general procedures for each department
+    //TODO create patient procedure
+    //TODO create interactions
+    //TODO pull procedures by docID
+    
 
     //methods for patients pane
     public void addNewPatient(){
@@ -326,6 +346,63 @@ public class mainViewController implements Initializable {
 
     //methods for department pane
 
+    //add "generic" procedure
+    public void addProcedureByDep(){
+
+        String name, num, duration, depCode, desc;
+        name = procNameText.getText();
+        num = procNumText.getText();
+        duration = procDurationText.getText();
+        depCode = procDepCodeText.getText();
+        desc = procDescText.getText();
+
+        Procedure proc = new Procedure(name, num, duration, depCode, desc);
+        Boolean successful = db.addProc(proc);
+        if (successful){
+            newProcedureMessage.setText("Procedure added.");
+            newProcedureMessage.setStyle("-fx-text-fill: #00b306");
+            newProcedureMessage.setVisible(true);
+            clearNewProcedure();
+
+        }
+        else{
+            newProcedureMessage.setText("Unable to add procedure.");
+            newProcedureMessage.setStyle("-fx-text-fill: #d41117");
+            newProcedureMessage.setVisible(true);
+        }
+    }
+    public void clearNewProcedure(){
+        procNameText.setText("");
+        procNumText.setText("");
+        procDurationText.setText("");
+        procDepCodeText.setText("");
+        procDescText.setText("");
+    }
+    //search procedures by department
+    public void getProcByDep() throws SQLException {
+        String search = searchDepText.getText();
+        clearProcByDep();
+
+        procDepCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("depCode"));
+        procNameCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("name"));
+        procNumCol.setCellValueFactory(new PropertyValueFactory<Procedure, String>("procNum"));
+        procDurationCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("duration"));
+        procDescCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("description"));
+        try{
+            ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+            procedures = db.searchProcbyDep(search);
+            procByDepTable.setItems(procedures);
+            procByDepTable.refresh();
+            System.out.println("Procedure information loaded.");
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Unable to load procedure data.");
+        }
+    }
+    public void clearProcByDep(){
+        procByDepTable.getItems().clear();
+    }
+
     public void loadDepartmentData() {
         depCodeCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depCode"));
         depNameCol.setCellValueFactory(new PropertyValueFactory<Department,String>("depName"));
@@ -445,7 +522,7 @@ public class mainViewController implements Initializable {
         Sidebar Menu Control Section :)
      */
 
-    //TODO At medications pane tab update prev methods and initialize
+
 
     public void switchToDepartmentsPane(){
      //   System.out.println("change to departments");

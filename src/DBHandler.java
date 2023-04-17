@@ -237,4 +237,52 @@ public class DBHandler {
     public void closeConn() throws SQLException {
         conn.close();
     }
+
+    //general type add procedure
+    public Boolean addProc(Procedure proc) {
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PROCEDURES(PROCEDURE_NUM, DURATION, DESCRIPTION, NAME, DEPT_CODE)" +
+                    " VALUES(?,?,?,?,?)");
+
+            pstmt.setString(1, proc.getProcNum());
+            pstmt.setString(2,proc.getDuration());
+            pstmt.setString(3,proc.getDescription());
+            pstmt.setString(4,proc.getName());
+            pstmt.setString(5,proc.getDepCode());
+            pstmt.executeUpdate();
+
+
+            System.out.println("Procedure added.");
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Unable to add procedure.");
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+    public ObservableList<Procedure> searchProcbyDep(String search) throws SQLException {
+        ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "SELECT DEPT_CODE, NAME, PROCEDURE_NUM, DURATION, DESCRIPTION FROM PROCEDURES WHERE PATIENT_ID IS NULL AND DEPT_CODE= '" + search + "'";
+        System.out.println("QUERYING: " + q);
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+            String code = rset.getString("DEPT_CODE");
+            String name = rset.getString("NAME");
+            String num = rset.getString("PROCEDURE_NUM");
+            String duration = rset.getString("DURATION");
+            String desc = rset.getString("DESCRIPTION");
+
+            Procedure proc = new Procedure(name,num,duration,code,desc);
+            procedures.add(proc);
+        }
+
+        return procedures;
+    }//end searchProcByDep
 }//end all
