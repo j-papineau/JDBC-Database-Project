@@ -359,7 +359,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="437.0" layoutY="23.0" prefHeight="242.0" prefWidth="307.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
                      <children>
-                        <Label layoutX="88.0" layoutY="14.0" prefHeight="19.0" prefWidth="131.0" text="Add New Medication">
+                        <Label layoutX="88.0" layoutY="14.0" prefHeight="19.0" prefWidth="131.0" text="Add New Prescription">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

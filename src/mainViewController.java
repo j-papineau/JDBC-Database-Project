@@ -516,6 +516,7 @@ public class mainViewController implements Initializable {
             addMedMessage.setText("Medication added.");
             addMedMessage.setStyle("-fx-text-fill: #00b306");
             addMedMessage.setVisible(true);
+            clearNewMedication();
         }
         else{
             addMedMessage.setText("Unable to add medication.");
