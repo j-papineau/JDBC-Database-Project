@@ -239,7 +239,7 @@ public class DBHandler {
     }
 
     //general type add procedure
-    public Boolean addProc(Procedure proc) {
+    public boolean addProc(Procedure proc) {
 
         try {
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PROCEDURES(PROCEDURE_NUM, DURATION, DESCRIPTION, NAME, DEPT_CODE)" +
@@ -263,6 +263,23 @@ public class DBHandler {
         }
 
 
+    }
+    public boolean addPrescription(Prescription pre){
+        try{
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PRESCRIPTION VALUES(?, ?, ?)");
+            pstmt.setString(1,pre.getName());
+            pstmt.setString(2, pre.getDocID());
+            pstmt.setString(3, pre.getPatID());
+            pstmt.executeUpdate();
+
+            System.out.println("Prescription added.");
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to add prescription.");
+            return false;
+        }
     }
 
     public ObservableList<Procedure> searchProcbyDep(String search) throws SQLException {

@@ -88,6 +88,11 @@ public class mainViewController implements Initializable {
     @FXML private TextField medMakerText;
     @FXML private TextField medDescText;
     @FXML private Label addMedMessage;
+    //prescription imports
+    @FXML private Label newPreMessage;
+    @FXML private TextField newPreName;
+    @FXML private TextField newPreDoc;
+    @FXML private TextField newPrePat;
     //patient tab imports
     @FXML private TableView<Patient> patientTable;
     @FXML private TableColumn<Patient,String> patIDCol;
@@ -515,6 +520,33 @@ public class mainViewController implements Initializable {
         medNameText.setText("");
         medMakerText.setText("");
         medDescText.setText("");
+    }
+    public void addNewPrescription(){
+
+        String name = newPreName.getText();
+        String docID = newPreDoc.getText();
+        String patID = newPrePat.getText();
+
+        Prescription newP = new Prescription(name, docID, patID);
+        boolean success = db.addPrescription(newP);
+
+        if(success){
+
+            newPreMessage.setText("Prescription added.");
+            newPreMessage.setStyle("-fx-text-fill: #00b306");
+            newPreMessage.setVisible(true);
+            clearNewPre();
+        }else{
+            newPreMessage.setText("Unable to add prescription.");
+            newPreMessage.setStyle("-fx-text-fill: #d41117");
+            newPreMessage.setVisible(true);
+        }
+
+    }
+    public void clearNewPre(){
+        newPreName.setText("");
+        newPreDoc.setText("");
+        newPrePat.setText("");
     }
 
 
