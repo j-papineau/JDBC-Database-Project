@@ -1,6 +1,7 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 
@@ -302,4 +303,25 @@ public class DBHandler {
 
         return procedures;
     }//end searchProcByDep
+    public ObservableList<Prescription> searchPrescriptionsByPatientID(String id) throws SQLException {
+
+        ObservableList<Prescription> prescriptions = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM PRESCRIPTION WHERE PATIENT_ID= '" + id + "' ";
+        System.out.println("Querying: " + q);
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+
+            String medName = rset.getString("MED_NAME");
+            String docID = rset.getString("PRESCRIBING_DOC");
+            String patID = rset.getString("PATIENT_ID");
+
+            Prescription pre = new Prescription(medName,docID,patID);
+            prescriptions.add(pre);
+        }
+
+        return prescriptions;
+
+    }
 }//end all

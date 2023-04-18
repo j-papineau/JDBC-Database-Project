@@ -20,10 +20,12 @@ public class mainViewController implements Initializable {
     @FXML private Pane departmentsPane;
     @FXML private Pane doctorsPane;
     @FXML private Pane medicationsPane;
+    @FXML private Pane patientRecordPane;
     @FXML private Button patientsTab;
     @FXML private Button departmentsTab;
     @FXML private Button doctorsTab;
     @FXML private Button medicationsTab;
+    @FXML private Button patientRecordTab;
     //department tab imports
     @FXML private TableView<Department> departmentTable;
     @FXML private TableColumn<Department,String> depCodeCol;
@@ -121,6 +123,12 @@ public class mainViewController implements Initializable {
     @FXML private TextField patPermZip;
     @FXML private TextField patPermPhone;
     @FXML private DatePicker patBDay;
+    //patient record pane imports
+    @FXML private TextField searchPatientText;
+    @FXML private TableView <Prescription> searchPatPrescriptionTable;
+    @FXML private TableColumn<Prescription,String> searchPatPreName;
+    @FXML private TableColumn<Prescription,String> searchPatPreDoc;
+
 
 
 
@@ -549,12 +557,36 @@ public class mainViewController implements Initializable {
         newPrePat.setText("");
     }
 
+    //patient record pane methods
+
+    //TODO implement Patient search by ID
+
+    public void searchByPatID(){
+
+        String id = searchPatientText.getText();
+        setPrescriptionTable(id);
+
+    }
+    public void setPrescriptionTable(String id){
+
+        searchPatPreName.setCellValueFactory(new PropertyValueFactory<Prescription, String>("name"));
+        searchPatPreDoc.setCellValueFactory(new PropertyValueFactory<Prescription,String>("docID"));
+        try{
+            searchPatPrescriptionTable.setItems(db.searchPrescriptionsByPatientID(id));
+            searchPatPrescriptionTable.refresh();
+            System.out.println("Prescription data loaded for patient");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to load prescription data for patient.");
+        }
+
+    }
+
 
     /*
         Sidebar Menu Control Section :)
      */
-
-
 
     public void switchToDepartmentsPane(){
      //   System.out.println("change to departments");
@@ -562,11 +594,13 @@ public class mainViewController implements Initializable {
         patientsPane.setVisible(false);
         doctorsPane.setVisible(false);
         medicationsPane.setVisible(false);
+        patientRecordPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #002b70");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
+        patientRecordTab.setStyle("-fx-background-color: #001c4a");
 
     }//end departments
     public void switchToPatientsPane(){
@@ -575,11 +609,13 @@ public class mainViewController implements Initializable {
         departmentsPane.setVisible(false);
         doctorsPane.setVisible(false);
         medicationsPane.setVisible(false);
+        patientRecordPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #002b70");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
+        patientRecordTab.setStyle("-fx-background-color: #001c4a");
 
     }//end patients
     public void switchToDoctorsPane(){
@@ -588,21 +624,39 @@ public class mainViewController implements Initializable {
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
         medicationsPane.setVisible(false);
+        patientRecordPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #002b70");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
+        patientRecordTab.setStyle("-fx-background-color: #001c4a");
     }//end doctors
     public void switchToMedicationsPane(){
         doctorsPane.setVisible(false);
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
         medicationsPane.setVisible(true);
+        patientRecordPane.setVisible(false);
 
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #002b70");
+        patientRecordTab.setStyle("-fx-background-color: #001c4a");
+    }
+    public void swichToPatientRecordPane(){
+
+        doctorsPane.setVisible(false);
+        patientsPane.setVisible(false);
+        departmentsPane.setVisible(false);
+        medicationsPane.setVisible(false);
+        patientRecordPane.setVisible(true);
+
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
+        patientsTab.setStyle("-fx-background-color: #001c4a");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        medicationsTab.setStyle("-fx-background-color: #001c4a");
+        patientRecordTab.setStyle("-fx-background-color: #002b70");
     }
 }//end controller
