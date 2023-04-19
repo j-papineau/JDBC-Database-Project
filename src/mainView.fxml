@@ -11,7 +11,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -22,7 +25,7 @@
          <children>
             <Pane fx:id="patientsPane" prefHeight="1043.0" prefWidth="1318.0" visible="false">
                <children>
-                  <Button layoutX="1215.0" layoutY="417.0" mnemonicParsing="false" onAction="#clearPatientTable" text="clear all" />
+                  <Button layoutX="1196.0" layoutY="417.0" mnemonicParsing="false" onAction="#clearPatientTable" text="Clear all" />
                   <Label layoutX="25.0" layoutY="413.0" prefHeight="32.0" prefWidth="553.0" text="Patients (some information is left out for table size)">
                      <font>
                         <Font size="22.0" />
@@ -92,6 +95,7 @@
                         <TextField fx:id="patPermStreet" layoutX="10.0" layoutY="238.0" prefHeight="4.0" prefWidth="118.0" promptText="32619" />
                      </children>
                   </AnchorPane>
+                  <Button layoutX="899.0" layoutY="417.0" mnemonicParsing="false" onAction="#getSelectedPatientRow" prefHeight="25.0" prefWidth="174.0" text="Pull Selected Patient Record" />
                </children>
             </Pane>
             <Pane fx:id="departmentsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -403,7 +407,7 @@
                      </font>
                   </Label>
                   <Button layoutX="316.0" layoutY="85.0" mnemonicParsing="false" onAction="#searchByPatID" prefHeight="25.0" prefWidth="41.0" text="Go" />
-                  <TableView fx:id="searchPatPrescriptionTable" layoutX="31.0" layoutY="170.0" prefHeight="200.0" prefWidth="290.0">
+                  <TableView fx:id="searchPatPrescriptionTable" layoutX="428.0" layoutY="163.0" prefHeight="200.0" prefWidth="290.0">
                     <columns>
                       <TableColumn fx:id="searchPatPreName" prefWidth="75.0" text="Medication" />
                       <TableColumn fx:id="searchPatPreDoc" prefWidth="75.0" text="Prescribed by" />
@@ -412,12 +416,216 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label layoutX="31.0" layoutY="140.0" text="Prescriptions">
+                  <Label layoutX="428.0" layoutY="133.0" text="Prescriptions">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
                   <Label layoutX="495.0" layoutY="58.0" text="P11112222 is valid for testing" />
+                  <Label layoutX="24.0" layoutY="147.0" text="General Patient Information:">
+                     <font>
+                        <Font name="System Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <GridPane layoutX="24.0" layoutY="182.0" prefHeight="568.0" prefWidth="341.0" stylesheets="@loginStyle.css">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="196.0" minWidth="10.0" prefWidth="156.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="185.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="23.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Patient ID:">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="genPatID" GridPane.columnIndex="1" />
+                        <Label layoutX="10.0" layoutY="15.0" text="SSN:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="genPatSSN" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label layoutX="10.0" layoutY="45.0" text="Primary Doctor:" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="75.0" text="Current Phone:" GridPane.rowIndex="8">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Condition:" GridPane.rowIndex="9">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="City:" GridPane.rowIndex="13">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Birthday:" GridPane.rowIndex="10">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="State:" GridPane.rowIndex="14">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Street:" GridPane.rowIndex="15">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="ZIP:" GridPane.rowIndex="16">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Phone:" GridPane.rowIndex="17">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Sex:" GridPane.rowIndex="18">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="75.0" text="Secondary Doctor:" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="First Name:" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Middle Initial:" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Last Name:" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="15.0" text="Current Address:" GridPane.rowIndex="7">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="genPatMInit" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="genPatLName" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <TextField fx:id="genPatCurrAdd" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="genPatCurrPhone" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="genPatCondition" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField fx:id="genPatBDay" layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <TextField fx:id="genPatPermCity" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <TextField fx:id="genPatPermState" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                        <TextField fx:id="genPatPermStreet" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <TextField fx:id="genPatPermZip" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                        <TextField fx:id="genPatPermPhone" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+                        <TextField fx:id="genPatSex" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+                        <TextField fx:id="genPatPrim" layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="genPatSec" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="genPatFName" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label layoutX="10.0" layoutY="346.0" text="Permanent Address" GridPane.rowIndex="12">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <TableView fx:id="intRecordTable" layoutX="759.0" layoutY="163.0" prefHeight="200.0" prefWidth="469.0">
+                    <columns>
+                      <TableColumn fx:id="intRecordIdCol" prefWidth="43.0" text="ID" />
+                      <TableColumn fx:id="intRecordDateCol" prefWidth="86.0" text="Date" />
+                        <TableColumn fx:id="intRecordTimeCol" prefWidth="95.0" text="Time" />
+                        <TableColumn fx:id="intRecordDescCol" prefWidth="243.0" text="Description" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label layoutX="759.0" layoutY="132.0" text="Interaction Record">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="interactionsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Label layoutX="533.0" layoutY="34.0" text="Add Patient Interactions">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane layoutX="99.0" layoutY="125.0" prefHeight="301.0" prefWidth="307.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
+                     <children>
+                        <Label layoutX="70.0" layoutY="14.0" text="New Interaction">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="62.0" text="Patient ID:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="interPID" layoutX="119.0" layoutY="65.0" promptText="PXXXXXXXX" />
+                        <Label layoutX="10.0" layoutY="152.0" text="Interaction Time:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="interTime" layoutX="163.0" layoutY="155.0" prefHeight="25.0" prefWidth="136.0" promptText="HH:MM:SS" />
+                        <DatePicker fx:id="interDate" layoutX="119.0" layoutY="114.0" prefHeight="25.0" prefWidth="153.0" />
+                        <Label layoutX="14.0" layoutY="111.0" text="Date:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="60.0" layoutY="233.0" mnemonicParsing="false" onAction="#newInteraction" text="Submit" />
+                        <Button layoutX="142.0" layoutY="233.0" mnemonicParsing="false" onAction="#clearNewInt" text="Clear" />
+                        <Label fx:id="newInterMessage" layoutX="117.0" layoutY="262.0" text="Label" visible="false" />
+                        <Label layoutX="10.0" layoutY="192.0" text="Description:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="interDesc" layoutX="128.0" layoutY="195.0" prefHeight="25.0" prefWidth="136.0" />
+                     </children>
+                  </AnchorPane>
                </children>
             </Pane>
          </children>
@@ -453,12 +661,19 @@
                </font>
             </Button>
             <Line endX="94.0" layoutX="126.0" layoutY="448.0" startX="-124.66666412353516" stroke="WHITE" strokeWidth="2.0" />
+            <Line endX="94.0" layoutX="126.0" layoutY="526.0" startX="-124.66666412353516" stroke="WHITE" strokeWidth="2.0" />
+            <Line endX="94.0" layoutX="126.0" layoutY="604.0" startX="-124.66666412353516" stroke="WHITE" strokeWidth="2.0" />
             <Button fx:id="medicationsTab" layoutX="-1.0" layoutY="370.0" mnemonicParsing="false" onAction="#switchToMedicationsPane" prefHeight="75.0" prefWidth="217.0" style="-fx-background-color: #001c4a; -fx-border-radius: 0px;" stylesheets="@loginStyle.css" text="Medications" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="patientRecordTab" layoutX="-1.0" layoutY="449.0" mnemonicParsing="false" onAction="#swichToPatientRecordPane" prefHeight="75.0" prefWidth="217.0" style="-fx-background-color: #001c4a; -fx-border-radius: 0px;" stylesheets="@loginStyle.css" text="Patient Record" textFill="WHITE">
+            <Button fx:id="patientRecordTab" layoutX="-1.0" layoutY="449.0" mnemonicParsing="false" onAction="#switchToPatientRecordPane" prefHeight="75.0" prefWidth="217.0" style="-fx-background-color: #001c4a; -fx-border-radius: 0px;" stylesheets="@loginStyle.css" text="Patient Record" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="interactionsTab" layoutX="-3.0" layoutY="527.0" mnemonicParsing="false" onAction="#switchToInteractionsPane" prefHeight="75.0" prefWidth="217.0" style="-fx-background-color: #001c4a; -fx-border-radius: 0px;" stylesheets="@loginStyle.css" text="Interactions" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>

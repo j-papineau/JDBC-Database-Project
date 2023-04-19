@@ -21,11 +21,13 @@ public class mainViewController implements Initializable {
     @FXML private Pane doctorsPane;
     @FXML private Pane medicationsPane;
     @FXML private Pane patientRecordPane;
+    @FXML private Pane interactionsPane;
     @FXML private Button patientsTab;
     @FXML private Button departmentsTab;
     @FXML private Button doctorsTab;
     @FXML private Button medicationsTab;
     @FXML private Button patientRecordTab;
+    @FXML private Button interactionsTab;
     //department tab imports
     @FXML private TableView<Department> departmentTable;
     @FXML private TableColumn<Department,String> depCodeCol;
@@ -128,6 +130,38 @@ public class mainViewController implements Initializable {
     @FXML private TableView <Prescription> searchPatPrescriptionTable;
     @FXML private TableColumn<Prescription,String> searchPatPreName;
     @FXML private TableColumn<Prescription,String> searchPatPreDoc;
+    //General Patient Information
+    @FXML private TextField genPatID;
+    @FXML private TextField genPatSSN;
+    @FXML private TextField genPatPrim;
+    @FXML private TextField genPatSec;
+    @FXML private TextField genPatFName;
+    @FXML private TextField genPatMInit;
+    @FXML private TextField genPatLName;
+    @FXML private TextField genPatCurrAdd;
+    @FXML private TextField genPatCurrPhone;
+    @FXML private TextField genPatCondition;
+    @FXML private TextField genPatBDay;
+    @FXML private TextField genPatPermCity;
+    @FXML private TextField genPatPermState;
+    @FXML private TextField genPatPermZip;
+    @FXML private TextField genPatPermPhone;
+    @FXML private TextField genPatSex;
+    @FXML private TextField genPatPermStreet;
+    //patient int record
+    @FXML private TableView<Interaction> intRecordTable;
+    @FXML private TableColumn<Interaction, Integer> intRecordIdCol;
+    @FXML private TableColumn<Interaction, Date> intRecordDateCol;
+    @FXML private TableColumn<Interaction, String> intRecordTimeCol;
+    @FXML private TableColumn<Interaction, String> intRecordDescCol;
+    //interaction imports
+    @FXML private Label newInterMessage;
+    @FXML private TextField interPID;
+    @FXML private DatePicker interDate;
+    @FXML private TextField interTime;
+    @FXML private TextField interDesc;
+
+
 
 
 
@@ -566,6 +600,24 @@ public class mainViewController implements Initializable {
 
         String id = searchPatientText.getText();
         setPrescriptionTable(id);
+        setGenPatientInfo(id);
+        loadIntRecord(id);
+
+    }
+    //same as above method but takes in ID parameter
+    public void searchByPatIDRedirect(String id){
+        switchToPatientRecordPane();
+        setPrescriptionTable(id);
+        setGenPatientInfo(id);
+        loadIntRecord(id);
+
+    }
+    public void getSelectedPatientRow(){
+
+        Patient patient = patientTable.getSelectionModel().getSelectedItem();
+        String id = patient.getPatientID();
+        searchByPatIDRedirect(id);
+
 
     }
     public void setPrescriptionTable(String id){
@@ -583,7 +635,89 @@ public class mainViewController implements Initializable {
         }
 
     }
+    public void setGenPatientInfo(String id){
+        //TODO Minit addition
+        Patient p = db.getPatFromID(id);
 
+        genPatID.setText(p.getPatientID());
+        genPatSSN.setText(p.getSsn());
+        genPatPrim.setText(p.getPrimaryDocID());
+        genPatSec.setText(p.getSecondaryDocID());
+        genPatFName.setText(p.getFName());
+        genPatLName.setText(p.getLName());
+        genPatCurrAdd.setText(p.getCurrentAddress());
+        genPatCurrPhone.setText(p.getCurrentPhone());
+        genPatBDay.setText(String.valueOf(p.getBDate()));
+        genPatCondition.setText(p.getPatientCondition());
+        genPatPermCity.setText(p.getPermCity());
+        genPatPermState.setText(p.getPermState());
+        genPatPermStreet.setText(p.getPermStreet());
+        genPatPermZip.setText(p.getPermZip());
+        genPatPermPhone.setText(p.getPermPhone());
+        genPatSex.setText(p.getPermPhone());
+    }//end setGenPat
+    public void loadIntRecord(String id){
+
+        intRecordIdCol.setCellValueFactory(new PropertyValueFactory<Interaction, Integer>("interID"));
+        intRecordDateCol.setCellValueFactory(new PropertyValueFactory<Interaction, Date>("date"));
+        intRecordTimeCol.setCellValueFactory(new PropertyValueFactory<Interaction, String>("interTime"));
+        intRecordDescCol.setCellValueFactory(new PropertyValueFactory<Interaction, String>("interDesc"));
+
+        try{
+            intRecordTable.setItems(db.loadInteractions(id));
+            intRecordTable.refresh();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to get interactions for patient id.");
+        }
+
+
+    }
+
+
+    //interaction pane methods
+
+    public void newInteraction(){
+        String id = interPID.getText();
+        Date date = Date.valueOf(interDate.getValue());
+        String time = interTime.getText();
+        String desc = interDesc.getText();
+        int count = countInteractions(id);
+        System.out.println("Current interactions: " + count);
+        int interID = count + 1;
+
+        Interaction interaction = new Interaction(interID, id, time, date, desc);
+        boolean succesful = db.newInteraction(interaction);
+        if(succesful){
+            newInterMessage.setText("Interaction added.");
+            newInterMessage.setStyle("-fx-text-fill: #00b306");
+            newInterMessage.setVisible(true);
+            clearNewInt();
+        }else{
+            newInterMessage.setText("Unable to add interaction");
+            newInterMessage.setStyle("-fx-text-fill: #d41117");
+            newInterMessage.setVisible(true);
+        }
+    }
+    public void clearNewInt(){
+        interPID.setText("");
+        interTime.setText("");
+        interDesc.setText("");
+
+    }
+    public int countInteractions(String id){
+
+        int intCount = 0;
+        try {
+            intCount = db.countInteractions(id);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to count ints.");
+        }
+
+        return intCount;
+    }
 
     /*
         Sidebar Menu Control Section :)
@@ -596,12 +730,14 @@ public class mainViewController implements Initializable {
         doctorsPane.setVisible(false);
         medicationsPane.setVisible(false);
         patientRecordPane.setVisible(false);
+        interactionsPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #002b70");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
         patientRecordTab.setStyle("-fx-background-color: #001c4a");
+        interactionsTab.setStyle("-fx-background-color: #001c4a");
 
     }//end departments
     public void switchToPatientsPane(){
@@ -611,12 +747,14 @@ public class mainViewController implements Initializable {
         doctorsPane.setVisible(false);
         medicationsPane.setVisible(false);
         patientRecordPane.setVisible(false);
+        interactionsPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #002b70");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
         patientRecordTab.setStyle("-fx-background-color: #001c4a");
+        interactionsTab.setStyle("-fx-background-color: #001c4a");
 
     }//end patients
     public void switchToDoctorsPane(){
@@ -626,12 +764,14 @@ public class mainViewController implements Initializable {
         departmentsPane.setVisible(false);
         medicationsPane.setVisible(false);
         patientRecordPane.setVisible(false);
+        interactionsPane.setVisible(false);
 
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         doctorsTab.setStyle("-fx-background-color: #002b70");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
         patientRecordTab.setStyle("-fx-background-color: #001c4a");
+        interactionsTab.setStyle("-fx-background-color: #001c4a");
     }//end doctors
     public void switchToMedicationsPane(){
         doctorsPane.setVisible(false);
@@ -639,25 +779,46 @@ public class mainViewController implements Initializable {
         departmentsPane.setVisible(false);
         medicationsPane.setVisible(true);
         patientRecordPane.setVisible(false);
+        interactionsPane.setVisible(false);
 
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #002b70");
         patientRecordTab.setStyle("-fx-background-color: #001c4a");
+        interactionsTab.setStyle("-fx-background-color: #001c4a");
     }
-    public void swichToPatientRecordPane(){
+    public void switchToPatientRecordPane(){
 
         doctorsPane.setVisible(false);
         patientsPane.setVisible(false);
         departmentsPane.setVisible(false);
         medicationsPane.setVisible(false);
         patientRecordPane.setVisible(true);
+        interactionsPane.setVisible(false);
 
         doctorsTab.setStyle("-fx-background-color: #001c4a");
         patientsTab.setStyle("-fx-background-color: #001c4a");
         departmentsTab.setStyle("-fx-background-color: #001c4a");
         medicationsTab.setStyle("-fx-background-color: #001c4a");
         patientRecordTab.setStyle("-fx-background-color: #002b70");
+        interactionsTab.setStyle("-fx-background-color: #001c4a");
+    }
+    public void switchToInteractionsPane(){
+
+        doctorsPane.setVisible(false);
+        patientsPane.setVisible(false);
+        departmentsPane.setVisible(false);
+        medicationsPane.setVisible(false);
+        patientRecordPane.setVisible(false);
+        interactionsPane.setVisible(true);
+
+        doctorsTab.setStyle("-fx-background-color: #001c4a");
+        patientsTab.setStyle("-fx-background-color: #001c4a");
+        departmentsTab.setStyle("-fx-background-color: #001c4a");
+        medicationsTab.setStyle("-fx-background-color: #001c4a");
+        patientRecordTab.setStyle("-fx-background-color: #001c4a");
+        interactionsTab.setStyle("-fx-background-color: #002b70");
+
     }
 }//end controller

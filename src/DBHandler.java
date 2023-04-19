@@ -324,4 +324,105 @@ public class DBHandler {
         return prescriptions;
 
     }
+    public Patient getPatFromID(String id){
+        //TODO minit addition
+        try {
+            Statement stmt = conn.createStatement();
+            String q = "SELECT * FROM PATIENT WHERE PATIENT_ID= '" + id + "'";
+            System.out.println("Pulling Patient " + id + " Info.");
+            ResultSet rset = stmt.executeQuery(q);
+
+            while(rset.next()){
+
+                String patientID = rset.getString("PATIENT_ID");
+                String ssn = rset.getString("SSN");
+                String primaryDocID = rset.getString("PRIMARY_DOC_ID");
+                String secondaryDocID = rset.getString("SECONDARY_DOC_ID");
+                String FName = rset.getString("FNAME");
+                String LName = rset.getString("LNAME");
+                String currentAddress = rset.getString("CURRENT_ADDRESS");
+                String currentPhone = rset.getString("CURRENT_PHONE");
+                String patientCondition = rset.getString("PATIENT_CONDITION");
+                Date bdate = rset.getDate("BDAY");
+                String permCity = rset.getString("PERM_CITY");
+                String permState = rset.getString("PERM_STATE");
+                String permStreet = rset.getString("PERM_STREET");
+                String permZip = rset.getString("PERM_ZIP");
+                String permPhone = rset.getString("PERM_PHONE");
+                String sex = rset.getString("SEX");
+
+                Patient p = new Patient(patientID,ssn,primaryDocID,secondaryDocID, FName,LName,currentAddress,currentPhone,patientCondition,bdate,
+                        permCity,permState,permStreet,permZip,permPhone, sex);
+                return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to retrieve patient.");
+            return null;
+        }
+        return null;
+    }
+
+    public int countInteractions(String id) throws SQLException {
+
+        Statement stmt = conn.createStatement();
+        String q = "Select count(*) COUNT FROM INTER_RECORD WHERE PATIENT_ID= '" + id + "'";
+        try {
+            ResultSet rset = stmt.executeQuery(q);
+
+            while(rset.next()){
+                int count = rset.getInt("COUNT");
+                return count;
+            }
+        } catch (SQLException e) {
+            System.out.println("Unable to add interaction");
+            return 99;
+        }
+        return 99;
+    }
+    public boolean newInteraction(Interaction interaction){
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO INTER_RECORD VALUES(?,?,?,?,?)");
+            pstmt.setInt(1, interaction.getInterID());
+            pstmt.setString(2, interaction.getPatientID());
+            pstmt.setDate(3,interaction.getDate());
+            pstmt.setString(4, interaction.getInterTime());
+            pstmt.setString(5, interaction.getInterDesc());
+            pstmt.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to add interaction.");
+            return false;
+        }
+
+    }//end newInt
+
+    public ObservableList<Interaction> loadInteractions(String id) throws SQLException {
+
+            ObservableList<Interaction> interactions = FXCollections.observableArrayList();
+            Statement stmt = conn.createStatement();
+            String q = "Select * FROM INTER_RECORD WHERE PATIENT_ID= '" + id + "'";
+            ResultSet rset = stmt.executeQuery(q);
+
+            while(rset.next()){
+
+                int interID = rset.getInt("INTER_ID");
+                String PID = rset.getString("PATIENT_ID");
+                Date date = rset.getDate("INTER_DATE");
+                String time = rset.getString("INTER_TIME");
+                String desc = rset.getString("DESCRIPTION");
+
+                Interaction i = new Interaction(interID,PID, time, date, desc);
+                interactions.add(i);
+
+            }
+
+            return interactions;
+    }
+
+
 }//end all
