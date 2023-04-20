@@ -1,0 +1,27 @@
+Procedure on patient
+Procdure_num String
+Duration String
+Description String
+Name String
+Patient_ID
+Doctor_Id
+Dept_Code
+Notes
+Proc_Date
+Proc_Time
+10 attr
+
+@FXML private TextField newProcNum;
+    @FXML private TextField newProcDur;
+    @FXML private TextField newProcDesc;
+    @FXML private TextField newProcName;
+    @FXML private TextField newProcPID;
+    @FXML private TextField newProcDID;
+    @FXML private TextField newProcDCode;
+    @FXML private TextArea newProcNotes;
+    @FXML private DatePicker newProcDate;
+    @FXML private TextField newProcTime;
+    @FXML private Label newProcMessage;
+
+    String procNum, duration, description, name, patientID, docID, depCode, notes, time;
+        Date date;

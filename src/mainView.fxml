@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -393,7 +394,7 @@
                   </AnchorPane>
                </children>
             </Pane>
-            <Pane fx:id="patientRecordPane" prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="patientRecordPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Label layoutX="31.0" layoutY="26.0" text="Patient Record">
                      <font>
@@ -461,7 +462,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="genPatID" GridPane.columnIndex="1" />
+                        <TextField fx:id="genPatID" editable="false" GridPane.columnIndex="1" />
                         <Label layoutX="10.0" layoutY="15.0" text="SSN:" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="15.0" />
@@ -543,21 +544,21 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="genPatMInit" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField fx:id="genPatLName" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField fx:id="genPatCurrAdd" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField fx:id="genPatCurrPhone" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <TextField fx:id="genPatCondition" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                        <TextField fx:id="genPatBDay" layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                        <TextField fx:id="genPatPermCity" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-                        <TextField fx:id="genPatPermState" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-                        <TextField fx:id="genPatPermStreet" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
-                        <TextField fx:id="genPatPermZip" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-                        <TextField fx:id="genPatPermPhone" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
-                        <TextField fx:id="genPatSex" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="18" />
-                        <TextField fx:id="genPatPrim" layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="genPatSec" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="genPatFName" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="genPatMInit" editable="false" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="genPatLName" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <TextField fx:id="genPatCurrAdd" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="genPatCurrPhone" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="genPatCondition" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField fx:id="genPatBDay" editable="false" layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <TextField fx:id="genPatPermCity" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <TextField fx:id="genPatPermState" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                        <TextField fx:id="genPatPermStreet" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <TextField fx:id="genPatPermZip" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                        <TextField fx:id="genPatPermPhone" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+                        <TextField fx:id="genPatSex" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+                        <TextField fx:id="genPatPrim" editable="false" layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="genPatSec" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="genPatFName" editable="false" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label layoutX="10.0" layoutY="346.0" text="Permanent Address" GridPane.rowIndex="12">
                            <font>
                               <Font name="System Bold" size="15.0" />
@@ -583,14 +584,86 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="interactionsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <Pane fx:id="interactionsPane" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label layoutX="533.0" layoutY="34.0" text="Add Patient Interactions">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
                   </Label>
-                  <AnchorPane layoutX="99.0" layoutY="125.0" prefHeight="301.0" prefWidth="307.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
+                  <AnchorPane layoutX="109.0" layoutY="456.0" prefHeight="533.0" prefWidth="301.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
+                     <children>
+                        <Label layoutX="70.0" layoutY="14.0" text="New Procedure">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="62.0" text="Procedure Number">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcNum" layoutX="187.0" layoutY="65.0" prefHeight="25.0" prefWidth="81.0" promptText="PPP9999" />
+                        <Label layoutX="14.0" layoutY="106.0" text="Duration:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcDur" layoutX="128.0" layoutY="109.0" prefHeight="25.0" prefWidth="136.0" promptText="HH:MM:SS" />
+                        <DatePicker fx:id="newProcDate" layoutX="118.0" layoutY="397.0" prefHeight="25.0" prefWidth="153.0" />
+                        <Label layoutX="16.0" layoutY="392.0" text="Date:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="19.0" layoutY="491.0" mnemonicParsing="false" onAction="#newProcedureOnPatient" text="Submit" />
+                        <Button layoutX="103.0" layoutY="491.0" mnemonicParsing="false" onAction="#clearNewProcOnPatient" text="Clear" />
+                        <Label fx:id="newProcMessage" layoutX="207.0" layoutY="486.0" text="Label" />
+                        <Label layoutX="14.0" layoutY="142.0" text="Description:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcDesc" layoutX="128.0" layoutY="145.0" prefHeight="25.0" prefWidth="136.0" />
+                        <Label layoutX="15.0" layoutY="181.0" text="Procedure Name">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcName" layoutX="178.0" layoutY="184.0" prefHeight="25.0" prefWidth="87.0" promptText="Endoscopy" />
+                        <Label layoutX="15.0" layoutY="217.0" text="Patient ID">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcPID" layoutX="129.0" layoutY="220.0" prefHeight="25.0" prefWidth="136.0" promptText="PXXXXXXXX" />
+                        <Label layoutX="16.0" layoutY="250.0" text="Doctor ID">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcDID" layoutX="130.0" layoutY="253.0" prefHeight="25.0" prefWidth="136.0" promptText="DXXXXXXXX" />
+                        <Label layoutX="16.0" layoutY="284.0" text="Dept Code">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcDCode" layoutX="130.0" layoutY="287.0" prefHeight="25.0" prefWidth="136.0" promptText="SURG" />
+                        <Label layoutX="16.0" layoutY="320.0" text="Notes">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="newProcNotes" layoutX="108.0" layoutY="323.0" prefHeight="67.0" prefWidth="158.0" />
+                        <Label layoutX="20.0" layoutY="436.0" text="Time">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newProcTime" layoutX="134.0" layoutY="439.0" prefHeight="25.0" prefWidth="136.0" promptText="HH:MM:SS" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="109.0" layoutY="135.0" prefHeight="301.0" prefWidth="307.0" style="-fx-border-color: #3e3f40;" stylesheets="@loginStyle.css">
                      <children>
                         <Label layoutX="70.0" layoutY="14.0" text="New Interaction">
                            <font>

@@ -160,6 +160,18 @@ public class mainViewController implements Initializable {
     @FXML private DatePicker interDate;
     @FXML private TextField interTime;
     @FXML private TextField interDesc;
+    //new procedure on patient import
+    @FXML private TextField newProcNum;
+    @FXML private TextField newProcDur;
+    @FXML private TextField newProcDesc;
+    @FXML private TextField newProcName;
+    @FXML private TextField newProcPID;
+    @FXML private TextField newProcDID;
+    @FXML private TextField newProcDCode;
+    @FXML private TextArea newProcNotes;
+    @FXML private DatePicker newProcDate;
+    @FXML private TextField newProcTime;
+    @FXML private Label newProcMessage;
 
 
 
@@ -205,7 +217,8 @@ public class mainViewController implements Initializable {
     //TODO create patient procedure
     //TODO create interactions
     //TODO pull procedures by docID
-    
+
+
 
     //methods for patients pane
     public void addNewPatient(){
@@ -304,6 +317,8 @@ public class mainViewController implements Initializable {
         patientTable.getItems().clear();
     }
 
+
+
     //methods for Doctor Pane
     public void loadDoctorData(){
 
@@ -331,11 +346,12 @@ public class mainViewController implements Initializable {
         docTable.getItems().clear();
     }
     public ObservableList<Doctor> getDoctorData() throws SQLException {
-        ObservableList<Doctor> doctors = FXCollections.observableArrayList();
+        ObservableList<Doctor> doctors;
         doctors = db.getDoctors();
 
         return doctors;
     }//end get doctors
+
 
 
     public void addNewDoc(){
@@ -673,6 +689,11 @@ public class mainViewController implements Initializable {
 
 
     }
+    public void setPatientInfo(String id){
+
+    }//TODO SETUP information for patient based on query result
+
+
 
 
     //interaction pane methods
@@ -717,6 +738,49 @@ public class mainViewController implements Initializable {
         }
 
         return intCount;
+    }
+    public void newProcedureOnPatient(){
+
+        String procNum = newProcNum.getText();
+        String duration = newProcDur.getText();
+        String description = newProcDesc.getText();
+        String name = newProcName.getText();
+        String patientID = newProcPID.getText();
+        String docID = newProcDID.getText();
+        String depCode = newProcDCode.getText();
+        String notes = newProcNotes.getText();
+        String time = newProcTime.getText();
+        Date date = Date.valueOf(newProcDate.getValue());
+
+        Procedure p = new Procedure(procNum,duration,description,name,patientID,docID,depCode,
+                notes,date,time);
+
+        Boolean succesful = db.addProc(p);
+
+        if(succesful){
+
+            newProcMessage.setText("Procedure added.");
+            newProcMessage.setStyle("-fx-text-fill: #00b306");
+            newProcMessage.setVisible(true);
+            clearNewProcOnPatient();
+
+        }else{
+            newProcMessage.setText("Unable to add Procedure.");
+            newProcMessage.setStyle("-fx-text-fill: #d41117");
+            newProcMessage.setVisible(true);
+        }
+
+    }
+    public void clearNewProcOnPatient(){
+        newProcNum.setText("");
+        newProcDur.setText("");
+        newProcDesc.setText("");
+        newProcName.setText("");
+        newProcPID.setText("");
+        newProcDID.setText("");
+        newProcDCode.setText("");
+        newProcNotes.setText("");
+        newProcTime.setText("");
     }
 
     /*
