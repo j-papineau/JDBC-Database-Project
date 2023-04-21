@@ -423,6 +423,65 @@ public class DBHandler {
 
             return interactions;
     }
+    public ObservableList<Procedure> getProcRecordByID(String id) throws SQLException {
+        ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM PROCEDURES WHERE PATIENT_ID = '" + id + "'";
+        System.out.println(q);
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+
+            String procNum = rset.getString("PROCEDURE_NUM");
+            String duration = rset.getString("DURATION");
+            String desc = rset.getString("DESCRIPTION");
+            String name = rset.getString("NAME");
+            String docID = rset.getString("DOCTOR_ID");
+            String depCode = rset.getString("DEPT_CODE");
+            String notes = rset.getString("NOTES");
+            Date date = rset.getDate("PROC_DATE");
+            String time = rset.getString("PROC_TIME");
+            String pID = "";
+
+            Procedure p = new Procedure(procNum, duration, desc, name, pID, docID, depCode, notes, date, time);
+            System.out.println(p.getDepCode());
+            procedures.add(p);
+
+        }
+
+        return procedures;
+
+    }
+    public boolean addProcByID(Procedure proc) {
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PROCEDURES VALUES(?,?,?,?,?,?,?,?,?,?)");
+
+            pstmt.setString(1, proc.getProcNum());
+            pstmt.setString(2,proc.getDuration());
+            pstmt.setString(3,proc.getDescription());
+            pstmt.setString(4,proc.getName());
+            pstmt.setString(5,proc.getPatientID());
+            pstmt.setString(6,proc.getDocID());
+            pstmt.setString(7,proc.getDepCode());
+            pstmt.setString(8,proc.getNotes());
+            pstmt.setDate(9, proc.getDate());
+            pstmt.setString(10,proc.getTime());
+
+            pstmt.executeUpdate();
+
+
+            System.out.println("Procedure added.");
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Unable to add procedure.");
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
 
 
 }//end all

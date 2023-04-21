@@ -394,7 +394,7 @@
                   </AnchorPane>
                </children>
             </Pane>
-            <Pane fx:id="patientRecordPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <Pane fx:id="patientRecordPane" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label layoutX="31.0" layoutY="26.0" text="Patient Record">
                      <font>
@@ -582,9 +582,32 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
+                  <TableView fx:id="procRecordTable" layoutX="428.0" layoutY="420.0" prefHeight="200.0" prefWidth="795.0">
+                    <columns>
+                      <TableColumn fx:id="procRecordNum" prefWidth="75.0" text="Number" />
+                      <TableColumn fx:id="procRecordDur" prefWidth="75.0" text="Duration" />
+                        <TableColumn fx:id="procRecordDesc" prefWidth="75.0" text="Description" />
+                        <TableColumn fx:id="procRecordName" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="procRecordDID" prefWidth="75.0" text="Doctor ID" />
+                        <TableColumn fx:id="procRecordDepCode" prefWidth="75.0" text="Dept. Code" />
+                        <TableColumn fx:id="procRecordNotes" prefWidth="75.0" text="Notes" />
+                        <TableColumn fx:id="procRecordDate" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="procRecordTime" prefWidth="75.0" text="Time" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label layoutX="958.0" layoutY="620.0" text="Notes">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="1146.0" layoutY="393.0" mnemonicParsing="false" onAction="#viewNotes" text="View Notes" />
+                  <TextArea fx:id="notesText" layoutX="958.0" layoutY="650.0" prefHeight="163.0" prefWidth="279.0" />
                </children>
             </Pane>
-            <Pane fx:id="interactionsPane" prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="interactionsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Label layoutX="533.0" layoutY="34.0" text="Add Patient Interactions">
                      <font>

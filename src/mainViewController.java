@@ -154,6 +154,19 @@ public class mainViewController implements Initializable {
     @FXML private TableColumn<Interaction, Date> intRecordDateCol;
     @FXML private TableColumn<Interaction, String> intRecordTimeCol;
     @FXML private TableColumn<Interaction, String> intRecordDescCol;
+    //patient proc record
+    @FXML private TableView<Procedure> procRecordTable;
+    @FXML private TableColumn<Procedure,String> procRecordNum;
+    @FXML private TableColumn<Procedure,String> procRecordDur;
+    @FXML private TableColumn<Procedure,String> procRecordDesc;
+    @FXML private TableColumn<Procedure,String> procRecordName;
+    @FXML private TableColumn<Procedure,String> procRecordDID;
+    @FXML private TableColumn<Procedure,String> procRecordDepCode;
+    @FXML private TableColumn<Procedure,String> procRecordNotes;
+    @FXML private TableColumn<Procedure,Date> procRecordDate;
+    @FXML private TableColumn<Procedure,String> procRecordTime;
+    @FXML private TextArea notesText;
+
     //interaction imports
     @FXML private Label newInterMessage;
     @FXML private TextField interPID;
@@ -618,6 +631,8 @@ public class mainViewController implements Initializable {
         setPrescriptionTable(id);
         setGenPatientInfo(id);
         loadIntRecord(id);
+        loadProcRecord(id);
+        notesText.setText("");
 
     }
     //same as above method but takes in ID parameter
@@ -626,7 +641,8 @@ public class mainViewController implements Initializable {
         setPrescriptionTable(id);
         setGenPatientInfo(id);
         loadIntRecord(id);
-
+        loadProcRecord(id);
+        notesText.setText("");
     }
     public void getSelectedPatientRow(){
 
@@ -689,9 +705,30 @@ public class mainViewController implements Initializable {
 
 
     }
-    public void setPatientInfo(String id){
+    public void loadProcRecord(String id){
 
-    }//TODO SETUP information for patient based on query result
+        procRecordNum.setCellValueFactory(new PropertyValueFactory<Procedure, String>("procNum"));
+        procRecordDur.setCellValueFactory(new PropertyValueFactory<Procedure, String>("duration"));
+        procRecordDesc.setCellValueFactory(new PropertyValueFactory<Procedure, String>("description"));
+        procRecordName.setCellValueFactory(new PropertyValueFactory<Procedure, String>("name"));
+        procRecordDID.setCellValueFactory(new PropertyValueFactory<Procedure, String>("docID"));
+        procRecordDepCode.setCellValueFactory(new PropertyValueFactory<Procedure, String>("depCode"));
+        procRecordNotes.setCellValueFactory(new PropertyValueFactory<Procedure, String>("notes"));
+        procRecordDate.setCellValueFactory(new PropertyValueFactory<Procedure, Date>("date"));
+        procRecordTime.setCellValueFactory(new PropertyValueFactory<Procedure, String>("time"));
+        try{
+            procRecordTable.setItems(db.getProcRecordByID(id));
+            System.out.println("patient procedure table loaded.");
+            procRecordTable.refresh();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Unable to load patient procedure table.");
+        }
+
+
+    }
 
 
 
@@ -755,7 +792,7 @@ public class mainViewController implements Initializable {
         Procedure p = new Procedure(procNum,duration,description,name,patientID,docID,depCode,
                 notes,date,time);
 
-        Boolean succesful = db.addProc(p);
+        Boolean succesful = db.addProcByID(p);
 
         if(succesful){
 
@@ -781,6 +818,12 @@ public class mainViewController implements Initializable {
         newProcDCode.setText("");
         newProcNotes.setText("");
         newProcTime.setText("");
+    }
+    public void viewNotes(){
+
+        Procedure proc = procRecordTable.getSelectionModel().getSelectedItem();
+        notesText.setText(proc.getNotes());
+
     }
 
     /*
