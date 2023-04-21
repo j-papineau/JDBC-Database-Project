@@ -32,6 +32,21 @@ public class Procedure {
         this.time = null;
 
     }
+    public Procedure(String name, String procNum, String duration, String depCode, String description, Date date){
+
+        this.name = name;
+        this.procNum = procNum;
+        this.duration = duration;
+        this.depCode = depCode;
+        this.description = description;
+        this.patientID = "";
+        this.docID = "";
+        this.notes = "";
+        this.date = date;
+        this.time = null;
+
+
+    }
 
     public String getProcNum() {
         return procNum;

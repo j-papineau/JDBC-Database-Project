@@ -483,5 +483,49 @@ public class DBHandler {
 
     }
 
+    public ObservableList<Procedure> getProcByDoc(String id) throws SQLException {
 
+        ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "SELECT * FROM PROCEDURES WHERE DOCTOR_ID = '" + id + "'";
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+
+            String code = rset.getString("DEPT_CODE");
+            String name = rset.getString("NAME");
+            String num = rset.getString("PROCEDURE_NUM");
+            String duration = rset.getString("DURATION");
+            String desc = rset.getString("DESCRIPTION");
+            Date date = rset.getDate("PROC_DATE");
+
+            Procedure proc = new Procedure(name,num,duration,code,desc, date);
+            procedures.add(proc);
+
+        }
+
+       return procedures;
+
+    }
+    public int countProc(String id) throws SQLException {
+
+        Statement stmt = conn.createStatement();
+        String q = "SELECT COUNT(*) E FROM PROCEDURES WHERE DOCTOR_ID = '" + id + "'";
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+            int count = rset.getInt("E");
+            return count;
+        }
+        return 0;
+    }
+    public void changeNotes(String notes, String newNotes) throws SQLException {
+
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE PROCEDURES SET NOTES = '" + newNotes + "' WHERE NOTES = '" + notes + "'");
+        System.out.println("UPDATE PROCEDURES SET NOTES = '" + newNotes + "' WHERE NOTES = '" + notes + "'");
+        pstmt.executeUpdate();
+
+
+
+    }
 }//end all

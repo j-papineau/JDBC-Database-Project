@@ -79,9 +79,18 @@ public class mainViewController implements Initializable {
     @FXML private TextField newDocContact;
     @FXML private TextField newDocCode;
     @FXML private TextField newDocSsn;
+
     //doctor search by DocID imports
     @FXML private TextField docIDSearch;
     @FXML private Label procedureCount;
+    @FXML private TableView<Procedure> docIDTable;
+    @FXML private TableColumn<Procedure, String> docProcNum;
+    @FXML private TableColumn<Procedure, String> docProcDur;
+    @FXML private TableColumn<Procedure, String> docProcDesc;
+    @FXML private TableColumn<Procedure, String> docProcName;
+    @FXML private TableColumn<Procedure, String> docProcCode;
+    @FXML private TableColumn<Procedure, Date> docProcDate;
+
     //med tab imports
     @FXML private TableView<Medication> medicationsTable;
     @FXML private TableColumn<Medication, String> medNameCol;
@@ -364,6 +373,40 @@ public class mainViewController implements Initializable {
 
         return doctors;
     }//end get doctors
+
+    public void sendID(){
+       String id = docIDSearch.getText();
+       getProcByDoc(id);
+    }
+    public void sendIDByClick(){
+
+      Doctor doc =  docTable.getSelectionModel().getSelectedItem();
+      String id = doc.getDocID();
+      docIDSearch.setText(id);
+      getProcByDoc(id);
+    }
+
+    public void getProcByDoc(String id){
+
+        docProcNum.setCellValueFactory(new PropertyValueFactory<Procedure, String>("procNum"));
+        docProcDur.setCellValueFactory(new PropertyValueFactory<Procedure, String>("duration"));
+        docProcDesc.setCellValueFactory(new PropertyValueFactory<Procedure, String>("description"));
+        docProcName.setCellValueFactory(new PropertyValueFactory<Procedure, String>("name"));
+        docProcCode.setCellValueFactory(new PropertyValueFactory<Procedure, String>("depCode"));
+        docProcDate.setCellValueFactory(new PropertyValueFactory<Procedure, Date>("date"));
+
+        try{
+            docIDTable.setItems(db.getProcByDoc(id));
+            procedureCount.setText(Integer.toString(db.countProc(id)));
+            System.out.println("Proc by doc loaded.");
+            docIDTable.refresh();
+
+        } catch (SQLException e) {
+            System.out.println("Unable to load proc by doc.");
+            e.printStackTrace();
+        }
+
+    }
 
 
 
@@ -648,7 +691,9 @@ public class mainViewController implements Initializable {
 
         Patient patient = patientTable.getSelectionModel().getSelectedItem();
         String id = patient.getPatientID();
+        searchPatientText.setText(id);
         searchByPatIDRedirect(id);
+
 
 
     }
@@ -727,6 +772,14 @@ public class mainViewController implements Initializable {
             System.out.println("Unable to load patient procedure table.");
         }
 
+
+    }
+    public void editNotes() throws SQLException {
+        Procedure proc = procRecordTable.getSelectionModel().getSelectedItem();
+        String notes = proc.getNotes();
+        String newNotes = notesText.getText();
+        db.changeNotes(notes, newNotes);
+        searchByPatIDRedirect(searchPatientText.getText());
 
     }
 
