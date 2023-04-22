@@ -879,9 +879,7 @@ public class mainViewController implements Initializable {
 
     }
 
-    /*
-        Sidebar Menu Control Section :)
-     */
+    /*  Sidebar Menu Control Section :) */
 
     public void switchToDepartmentsPane(){
      //   System.out.println("change to departments");
