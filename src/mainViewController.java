@@ -57,6 +57,7 @@ public class mainViewController implements Initializable {
     @FXML private TableColumn<Procedure,String> procDurationCol;
     @FXML private TableColumn<Procedure,String> procDescCol;
     @FXML private TextField searchDepText;
+    @FXML private TextField searchDepName;
     //doctor tab imports
     @FXML private TableView<Doctor> docTable;
     @FXML private TableColumn<Doctor, String> docIdCol;
@@ -101,6 +102,7 @@ public class mainViewController implements Initializable {
     @FXML private TextField medMakerText;
     @FXML private TextField medDescText;
     @FXML private Label addMedMessage;
+    @FXML private DatePicker medDate;
     //prescription imports
     @FXML private Label newPreMessage;
     @FXML private TextField newPreName;
@@ -139,6 +141,7 @@ public class mainViewController implements Initializable {
     @FXML private TableView <Prescription> searchPatPrescriptionTable;
     @FXML private TableColumn<Prescription,String> searchPatPreName;
     @FXML private TableColumn<Prescription,String> searchPatPreDoc;
+    @FXML private TableColumn<Prescription,Date> searchPatPreDate;
     //General Patient Information
     @FXML private TextField genPatID;
     @FXML private TextField genPatSSN;
@@ -500,6 +503,7 @@ public class mainViewController implements Initializable {
     //search procedures by department
     public void getProcByDep() throws SQLException {
         String search = searchDepText.getText();
+        String nameSearch = searchDepName.getText();
         clearProcByDep();
 
         procDepCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("depCode"));
@@ -507,9 +511,15 @@ public class mainViewController implements Initializable {
         procNumCol.setCellValueFactory(new PropertyValueFactory<Procedure, String>("procNum"));
         procDurationCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("duration"));
         procDescCol.setCellValueFactory(new PropertyValueFactory<Procedure,String>("description"));
+        ObservableList<Procedure> procedures = FXCollections.observableArrayList();
         try{
-            ObservableList<Procedure> procedures = FXCollections.observableArrayList();
-            procedures = db.searchProcbyDep(search);
+            if(!searchDepText.getText().isEmpty()) {
+                procedures = db.searchProcbyDep(search);
+
+            }
+            else {
+                procedures = db.searchProcbyDepName(nameSearch);
+            }
             procByDepTable.setItems(procedures);
             procByDepTable.refresh();
             System.out.println("Procedure information loaded.");
@@ -616,6 +626,7 @@ public class mainViewController implements Initializable {
         String name = medNameText.getText();
         String maker = medMakerText.getText();
         String description = medDescText.getText();
+
         Medication newMed = new Medication(name, maker, description);
         boolean medAdded = DBHandler.addMed(newMed);
         if(medAdded){
@@ -641,8 +652,9 @@ public class mainViewController implements Initializable {
         String name = newPreName.getText();
         String docID = newPreDoc.getText();
         String patID = newPrePat.getText();
+        Date date = Date.valueOf(medDate.getValue());
 
-        Prescription newP = new Prescription(name, docID, patID);
+        Prescription newP = new Prescription(name, docID, patID, date);
         boolean success = db.addPrescription(newP);
 
         if(success){
@@ -701,6 +713,7 @@ public class mainViewController implements Initializable {
 
         searchPatPreName.setCellValueFactory(new PropertyValueFactory<Prescription, String>("name"));
         searchPatPreDoc.setCellValueFactory(new PropertyValueFactory<Prescription,String>("docID"));
+        searchPatPreDate.setCellValueFactory(new PropertyValueFactory<Prescription, Date>("date"));
         try{
             searchPatPrescriptionTable.setItems(db.searchPrescriptionsByPatientID(id));
             searchPatPrescriptionTable.refresh();
@@ -721,6 +734,7 @@ public class mainViewController implements Initializable {
         genPatPrim.setText(p.getPrimaryDocID());
         genPatSec.setText(p.getSecondaryDocID());
         genPatFName.setText(p.getFName());
+        genPatMInit.setText(p.getMinit());
         genPatLName.setText(p.getLName());
         genPatCurrAdd.setText(p.getCurrentAddress());
         genPatCurrPhone.setText(p.getCurrentPhone());

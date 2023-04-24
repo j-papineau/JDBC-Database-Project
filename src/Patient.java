@@ -3,6 +3,7 @@ public class Patient {
 
         String patientID, ssn, primaryDocID, secondaryDocID, fName, lName, currentAddress, currentPhone, patientCondition,
         permCity, permState, permStreet, permZip, permPhone, sex;
+        String minit;
         Date bDate;
         public Patient(String patientID, String ssn, String primaryDocID, String secondaryDocID, String fName, String lName, String currentAddress,
         String currentPhone, String patientCondition, Date bDate, String permCity, String permState, String permStreet, String permZip,
@@ -25,9 +26,38 @@ public class Patient {
             this.permPhone = permPhone;
             this.sex = sex;
         }
+    public Patient(String patientID, String ssn, String primaryDocID, String secondaryDocID, String fName, String minit, String lName, String currentAddress,
+                   String currentPhone, String patientCondition, Date bDate, String permCity, String permState, String permStreet, String permZip,
+                   String permPhone, String sex){
 
+        this.patientID = patientID;
+        this.ssn = ssn;
+        this.primaryDocID = primaryDocID;
+        this.secondaryDocID = secondaryDocID;
+        this.fName = fName;
+        this.minit = minit;
+        this.lName = lName;
+        this.currentAddress = currentAddress;
+        this.currentPhone = currentPhone;
+        this.patientCondition = patientCondition;
+        this.bDate = bDate;
+        this.permCity = permCity;
+        this.permState = permState;
+        this.permStreet = permStreet;
+        this.permZip = permZip;
+        this.permPhone = permPhone;
+        this.sex = sex;
+    }
     public String getPatientID() {
         return patientID;
+    }
+
+    public String getMinit() {
+        return minit;
+    }
+
+    public void setMinit(String minit) {
+        this.minit = minit;
     }
 
     public void setPatientID(String patientID) {

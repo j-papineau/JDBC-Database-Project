@@ -267,10 +267,11 @@ public class DBHandler {
     }
     public boolean addPrescription(Prescription pre){
         try{
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PRESCRIPTION VALUES(?, ?, ?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PRESCRIPTION VALUES(?, ?, ?, ?)");
             pstmt.setString(1,pre.getName());
             pstmt.setString(2, pre.getDocID());
             pstmt.setString(3, pre.getPatID());
+            pstmt.setDate(4, pre.getDate());
             pstmt.executeUpdate();
 
             System.out.println("Prescription added.");
@@ -303,6 +304,29 @@ public class DBHandler {
 
         return procedures;
     }//end searchProcByDep
+
+    public ObservableList<Procedure> searchProcbyDepName(String search) throws SQLException {
+        ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+        Statement stmt = conn.createStatement();
+        String q = "Select * from procedures p, department d where p.dept_code = d.dept_code AND d.dept_Name = '" + search + "'";
+        System.out.println("QUERYING: " + q);
+        ResultSet rset = stmt.executeQuery(q);
+
+        while(rset.next()){
+            String code = rset.getString("DEPT_CODE");
+            String name = rset.getString("NAME");
+            String num = rset.getString("PROCEDURE_NUM");
+            String duration = rset.getString("DURATION");
+            String desc = rset.getString("DESCRIPTION");
+
+            Procedure proc = new Procedure(name,num,duration,code,desc);
+            procedures.add(proc);
+        }
+
+        return procedures;
+    }//end searchProcByDep
+
+
     public ObservableList<Prescription> searchPrescriptionsByPatientID(String id) throws SQLException {
 
         ObservableList<Prescription> prescriptions = FXCollections.observableArrayList();
@@ -316,8 +340,9 @@ public class DBHandler {
             String medName = rset.getString("MED_NAME");
             String docID = rset.getString("PRESCRIBING_DOC");
             String patID = rset.getString("PATIENT_ID");
-
-            Prescription pre = new Prescription(medName,docID,patID);
+            Date date = rset.getDate("Pres_date");
+            System.out.println("Pres stuff: " + medName + docID);
+            Prescription pre = new Prescription(medName,docID,patID, date);
             prescriptions.add(pre);
         }
 
@@ -339,6 +364,7 @@ public class DBHandler {
                 String primaryDocID = rset.getString("PRIMARY_DOC_ID");
                 String secondaryDocID = rset.getString("SECONDARY_DOC_ID");
                 String FName = rset.getString("FNAME");
+                String minit = rset.getString("MINIT");
                 String LName = rset.getString("LNAME");
                 String currentAddress = rset.getString("CURRENT_ADDRESS");
                 String currentPhone = rset.getString("CURRENT_PHONE");
@@ -351,7 +377,7 @@ public class DBHandler {
                 String permPhone = rset.getString("PERM_PHONE");
                 String sex = rset.getString("SEX");
 
-                Patient p = new Patient(patientID,ssn,primaryDocID,secondaryDocID, FName,LName,currentAddress,currentPhone,patientCondition,bdate,
+                Patient p = new Patient(patientID,ssn,primaryDocID,secondaryDocID, FName,minit,LName,currentAddress,currentPhone,patientCondition,bdate,
                         permCity,permState,permStreet,permZip,permPhone, sex);
                 return p;
             }
