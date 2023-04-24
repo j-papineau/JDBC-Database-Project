@@ -308,7 +308,7 @@ public class DBHandler {
     public ObservableList<Procedure> searchProcbyDepName(String search) throws SQLException {
         ObservableList<Procedure> procedures = FXCollections.observableArrayList();
         Statement stmt = conn.createStatement();
-        String q = "Select * from procedures p, department d where p.dept_code = d.dept_code AND d.dept_Name = '" + search + "'";
+        String q = "Select * from procedures p, department d where p.dept_code = d.dept_code  AND d.dept_Name = '" + search + "' AND p.patient_id is NULL";
         System.out.println("QUERYING: " + q);
         ResultSet rset = stmt.executeQuery(q);
 
