@@ -10,3 +10,8 @@ markerID =
 urlLocation = slug per location i.e. little-rock
 hasData = boolean declaring whether session data exists or not
 regionID = value denoting the regionID for our CRM
+
+baseURL = url www.adr.com/resources/location-slug i.e. .../little-rock
+constructionURL = url for construction page
+residentialURL = url for residential page
+rolloffURL = url for rolloff
