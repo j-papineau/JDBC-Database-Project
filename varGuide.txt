@@ -1,0 +1,12 @@
+given that this code all operates on the wordpress oxygen code blocks system this variable guide will come in handy
+
+Session Data Vars:
+
+phoneNumber = the local phone number
+locationFull = full location, i.e. Little Rock, AR
+locationShort = short location i.e. Little Rock
+originURL = URL where the data was last set
+markerID = 
+urlLocation = slug per location i.e. little-rock
+hasData = boolean declaring whether session data exists or not
+regionID = value denoting the regionID for our CRM
